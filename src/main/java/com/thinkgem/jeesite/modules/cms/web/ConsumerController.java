@@ -6,7 +6,6 @@ package com.thinkgem.jeesite.modules.cms.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.thinkgem.jeesite.modules.cms.entity.Consumer;
 import com.thinkgem.jeesite.modules.cms.service.ConsumerService;
 
@@ -51,12 +48,18 @@ public class ConsumerController extends BaseController {
 		return "modules/cms/consumerList";
 	}
 
+	@RequestMapping(value = "selectList")
+	public String selectList(Consumer consumer, HttpServletRequest request, HttpServletResponse response, Model model) {
+        list(consumer, request, response, model);
+		return "modules/cms/consumerSelectList";
+	}
+	
+
 	@RequestMapping(value = "form")
 	public String form(Consumer consumer, Model model) {
 		model.addAttribute("consumer", consumer);
 		return "modules/cms/consumerForm";
 	}
-
 
 	@RequestMapping(value = "save")
 	public String save(Consumer consumer, Model model, RedirectAttributes redirectAttributes) {

@@ -81,6 +81,8 @@ public interface BaseDao<T> {
 	 */
 	public Query createQuery(String qlString, Object... parameter);
 	
+	public Query createNativeQuery(String qlString, Object... parameter);
+	
 	// -------------- QL Query --------------
 
     /**

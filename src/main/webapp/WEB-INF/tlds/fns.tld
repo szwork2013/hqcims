@@ -94,7 +94,14 @@
     <example>${fns:getDictList(type)}</example>  
   </function>
 
-
+<!-- toolsUtils -->
+  <function>
+    <description>获取助记码</description>
+    <name>getCode</name>
+    <function-class>com.thinkgem.jeesite.modules.sys.utils.ToolsUtils</function-class>
+    <function-signature>java.lang.String getCode(java.lang.String)</function-signature>
+    <example>${fns:getCode(name)}</example>  
+  </function>
   
   <!-- Encodes -->
   <function>

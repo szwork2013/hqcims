@@ -20,7 +20,8 @@
 				$(this).parent().addClass("active");
 				$(this).children("i").addClass("icon-white");
 			});
-			$(".accordion-body a:first i").click();
+			$(".accordion-heading a i:eq(1)").click();
+			$(".accordion-body a i:eq(3)").click();
 		});
 	</script>
 </head>

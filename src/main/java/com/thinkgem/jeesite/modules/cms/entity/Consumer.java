@@ -36,11 +36,13 @@ public class Consumer extends BaseEntity {
 	private int is_consumer;//是否代收客户  0是 1否
 	private int is_provider;//是否是供应商客户 0是1否
 	private String remarks; // 备注
-//	private Date createDate;	// 创建日期
+	private Date create_date;	// 创建日期
 	private String del_flag;	// 删除标记（0：正常；1：删除）
+	private int is_special;//0正常客户 1散户
 
 	public Consumer() {
-	//	this.createDate = new Date();
+		this.is_special=0;
+		this.create_date = new Date();
 		this.del_flag = DEL_FLAG_NORMAL;
 	}
 
@@ -80,6 +82,7 @@ public class Consumer extends BaseEntity {
 		this.remarks = remarks;
 	}
 	
+	
 //	@NotNull
 //	public Date getCreateDate() {
 //		return createDate;
@@ -91,6 +94,14 @@ public class Consumer extends BaseEntity {
 
 	
 
+	@NotNull
+	public Date getCreate_date() {
+		return create_date;
+	}
+
+	public void setCreate_date(Date create_date) {
+		this.create_date = create_date;
+	}
 
 	@Length(min=1, max=1)
 	public String getDel_flag() {
@@ -156,6 +167,14 @@ public class Consumer extends BaseEntity {
 
 	public void setIs_provider(int is_provider) {
 		this.is_provider = is_provider;
+	}
+
+	public int getIs_special() {
+		return is_special;
+	}
+
+	public void setIs_special(int is_special) {
+		this.is_special = is_special;
 	}
 	
 	

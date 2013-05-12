@@ -72,6 +72,7 @@
 			</snapshots>
 		</repository>
 		
+            
 		<repository>
 			<id>repo.springsource.org</id>
 			<name>SpringSource Repository</name>
@@ -226,6 +227,25 @@
             <artifactId>analyzer</artifactId>
             <version>2012_u6</version>
         </dependency>
+
+		<!-- 中文转拼音 -->
+		<dependency>
+		        <groupId>com.belerweb</groupId>
+		        <artifactId>pinyin4j</artifactId>
+		        <version>2.5.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.0.5</version>  
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			 <version>1.0.0</version>  
+		</dependency>
+		
 
 		<!-- connection pool -->
 		<dependency>

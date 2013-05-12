@@ -42,10 +42,17 @@ public class ConsumerService extends BaseService {
 		if (StringUtils.isNotEmpty(consumer.getName())){
 			dc.add(Restrictions.like("name", "%"+consumer.getName()+"%"));
 		}
-		if (StringUtils.isNotEmpty(consumer.getRemarks())){
-			dc.add(Restrictions.like("remarks", "%"+consumer.getRemarks()+"%"));
+		if (StringUtils.isNotEmpty(consumer.getCode())){
+			dc.add(Restrictions.like("code", "%"+consumer.getCode()+"%"));
+		}
+		if (StringUtils.isNotEmpty(consumer.getAddress())){
+			dc.add(Restrictions.like("address", "%"+consumer.getAddress()+"%"));
 		}
 		dc.add(Restrictions.eq("del_flag", Consumer.DEL_FLAG_NORMAL));
+		if(consumer.getIs_special()>=0){
+			dc.add(Restrictions.eq("is_special", 0));
+		}
+		
 		dc.addOrder(Order.desc("id"));
 		return consumerDao.find(page, dc);
 	}

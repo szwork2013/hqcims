@@ -9,13 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.modules.sys.dao.MenuDao;
 import com.thinkgem.jeesite.modules.sys.dao.UserDao;
 import com.thinkgem.jeesite.modules.sys.entity.Menu;
@@ -58,14 +56,7 @@ public class UserUtils implements ApplicationContextAware {
 
 	public static List<Menu> getMenuList(){
 
-
-			List<Menu> menuList = menuDao.findAllList();
-			System.out.println(menuList.size());
-
-		for(int i=0;i<menuList.size();i++){
-			Menu me=menuList.get(i);
-			System.out.println(me.toString());
-		}
+		List<Menu> menuList = menuDao.findAllList();
 		return menuList;
 	}
 	

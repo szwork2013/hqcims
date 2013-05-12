@@ -257,7 +257,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
      * @param hql 
      * @return 
      */  
-    private String removeSelect(String qlString){  
+	protected String removeSelect(String qlString){  
         int beginPos = qlString.toLowerCase().indexOf("from");  
         return qlString.substring(beginPos);  
     }  
@@ -267,7 +267,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
      * @param hql 
      * @return 
      */  
-    private String removeOrders(String qlString) {  
+    protected String removeOrders(String qlString) {  
         Pattern p = Pattern.compile("order\\s*by[\\w|\\W|\\s|\\S]*", Pattern.CASE_INSENSITIVE);  
         Matcher m = p.matcher(qlString);  
         StringBuffer sb = new StringBuffer();  
@@ -503,5 +503,20 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 			} 
 		}
 		return list;
+	}
+
+	/* (non-Javadoc)
+	 * <p>Title: createNativeQuery</p> 
+	 * <p>Description: </p> 
+	 * @param qlString
+	 * @param parameter
+	 * @return 
+	 * @see com.thinkgem.jeesite.common.persistence.BaseDao#createNativeQuery(java.lang.String, java.lang.Object[])
+	 */
+	@Override
+	public Query createNativeQuery(String qlString, Object... parameter) {
+		Query query = getEntityManager().createNativeQuery(qlString);
+		setParameter(query, parameter);
+		return query;
 	}
 }

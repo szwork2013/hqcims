@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.thinkgem.jeesite.modules.cms.mybatis.OrderDetailMybatisDao">
+	<!--
+		获取用户: 输出直接映射到对象, login_name列要"as loginName"以方便映射 ,team_id as "team.id"创建team对象并赋值
+	-->
+
+	<select id="queryOrderDetail" resultType="com.thinkgem.jeesite.modules.cms.entity.OrderDetail" parameterType="map">
+		select goods_id,goods_name,goods_code,purchase,sale,last_sale,consumer_code,consumer_name from 
+		(select cg.id as goods_id,cg.name as goods_name,cg.code as goods_code,cg.purchase,cg.sale,table1.cname as consumer_name,table1.ccode as consumer_code 
+		from cms_goods as cg,
+		(select name as cname,code as ccode from cms_consumer where id=#{consumer_id}) as table1) as table2
+		left join
+		(select * from (
+		select g.id as gid,cd.sale as last_sale from 
+		cms_goods g,cms_order cc,cms_order_detail cd
+		where cc.consumer_id=#{consumer_id} and cc.id=cd.order_id
+		and cd.goods_id=g.id order by cc.create_date desc 
+		) as temp group by gid ) as table3
+		on table2.goods_id=table3.gid
+		<where>
+		<if test="goods_code!=null and goods_code.length()>0">
+		 and goods_code like '%${goods_code}%'
+		</if>
+		
+		<if test="goods_name!=null and goods_name.length()>0">
+		 and goods_name like '%${goods_name}%'
+		</if>
+		and  not exists 
+	   (select goods_id from cms_cart,cms_cart_detail 
+	   where cms_cart.user_id=#{user_id} and cms_cart.id=cms_cart_detail.cart_id 
+	   and cms_cart_detail.goods_id=table2.goods_id)
+		
+		</where>
+		limit #{start}, #{limit}
+	</select>
+	
+	<select id="queryCountOrderDetail" resultType="int" parameterType="map">
+	
+	  select count(*) from 
+		(select cg.id as goods_id,cg.name as goods_name,cg.code as goods_code,cg.purchase,cg.sale,table1.cname as consumer_name,table1.ccode as consumer_code 
+		from cms_goods as cg,
+		(select name as cname,code as ccode from cms_consumer where id=#{consumer_id}) as table1) as table2
+		left join
+		(select * from (
+		select g.id as gid,cd.sale as last_sale from 
+		cms_goods g,cms_order cc,cms_order_detail cd
+		where cc.consumer_id=#{consumer_id} and cc.id=cd.order_id
+		and cd.goods_id=g.id order by cc.create_date desc 
+		) as temp group by gid ) as table3
+		on table2.goods_id=table3.gid
+		<where>
+		<if test="goods_code!=null">
+		 and goods_code like '%${goods_code}%'
+		</if>
+		
+		<if test="goods_name!=null">
+		 and goods_name like '%${goods_name}%'
+		</if>
+		and  not exists 
+	   (select goods_id from cms_cart,cms_cart_detail 
+	   where cms_cart.user_id=#{user_id} and cms_cart.id=cms_cart_detail.cart_id 
+	   and cms_cart_detail.goods_id=table2.goods_id)
+		
+		</where>
+		
+	
+	</select>
+
+</mapper> 
