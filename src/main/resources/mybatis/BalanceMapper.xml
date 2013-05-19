@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.thinkgem.jeesite.modules.cms.mybatis.BalanceMybatisDao">
+	<!--
+		获取用户: 输出直接映射到对象, login_name列要"as loginName"以方便映射 ,team_id as "team.id"创建team对象并赋值
+	-->
+
+	<select id="queryBalance" resultType="com.thinkgem.jeesite.modules.cms.entity.Balance1" parameterType="map">
+		select u.name,u.code,u.id,sum(r.amount) as ramount,sum(c.amount) as camount,sum(b.amount) as bamount
+		from cms_balance as b inner join cms_consumer as u on b.consumer_id=u.id
+	    left join cms_receivable as r on b.consumer_id=r.consumer_id
+	    left join cms_collecting as c on b.consumer_id=c.consumer_id 
+		<where>
+		<if test="code!=null and code.length()>0">
+		 and u.code like '%${code}%'
+		</if>
+		<if test="name!=null and name.length()>0">
+		 and u.name like '%${name}%'
+		</if>
+		</where>
+		group by u.name,u.code,u.id
+		order by u.id desc
+		limit #{start}, #{limit}
+	</select>
+	
+	<select id="queryCountBalance" resultType="int" parameterType="map">
+	
+	  select count(distinct u.id)  
+	  from cms_balance as b inner join cms_consumer as u on b.consumer_id=u.id
+	  <where>
+		<if test="code!=null and code.length()>0">
+		 and u.code like '%${code}%'
+		</if>
+		<if test="name!=null and name.length()>0">
+		 and u.name like '%${name}%'
+		</if>
+		</where>
+	</select>
+
+</mapper> 

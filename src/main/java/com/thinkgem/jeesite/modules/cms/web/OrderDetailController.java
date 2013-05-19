@@ -77,6 +77,15 @@ public class OrderDetailController extends BaseController {
 		
 		Page<OrderDetail> page = service.find(new Page<OrderDetail>(request, response),  conusmer_id, goods_code, goods_name,user_id); 
 		model.addAttribute("page", page);
+		Long cart_num=cartService.getCartCountByUser(user_id);
+		model.addAttribute("cart_num", cart_num);
+		Cart carts=cartService.getCartByUser(user_id);
+		if(carts!=null){
+			model.addAttribute("cart_id", carts.getId());
+		}else{
+			model.addAttribute("cart_id", -1);
+		}
+		
 		return "modules/cms/orderDetail";
 	}
 	
@@ -95,6 +104,15 @@ public class OrderDetailController extends BaseController {
 		String goods_code=orderDetail.getGoods_code();
 		Page<OrderDetail> page = service.find(new Page<OrderDetail>(request, response),  conusmer_id, goods_code, goods_name,currentUser.getId()); 
 		model.addAttribute("page", page);
+		
+		Long cart_num=cartService.getCartCountByUser(currentUser.getId());
+		model.addAttribute("cart_num", cart_num);
+		Cart carts=cartService.getCartByUser(currentUser.getId());
+		if(carts!=null){
+			model.addAttribute("cart_id", carts.getId());
+		}else{
+			model.addAttribute("cart_id", -1);
+		}
 		return "modules/cms/orderDetail";
 	}
 

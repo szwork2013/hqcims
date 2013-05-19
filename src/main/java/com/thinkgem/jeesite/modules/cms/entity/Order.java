@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import com.thinkgem.jeesite.common.persistence.BaseEntity;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
  * 订单Entity
@@ -36,12 +37,12 @@ public class Order extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	private Long id; 		// 编号
 	private Consumer consumer;//用户
-	private Long user_id;//登陆ID
+	private User user;//登陆ID
 	private Date create_date;	// 创建日期
 	private String del_flag;	// 删除标记（0：正常；1：删除）
 //	private List<OrderList> childList;
 	private float total;//总计
-	private int status;//状态 0有效 1无效
+	private int status=-1;//状态 0有效 1无效
 	
 	
 	@NotNull	
@@ -111,6 +112,18 @@ public class Order extends BaseEntity {
 		this.consumer = consumer;
 	}
 
+	@OneToOne(cascade = {CascadeType.REFRESH},fetch=FetchType.EAGER)
+	@JoinColumn(name="user_id")
+	@NotNull
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
@@ -140,14 +153,14 @@ public class Order extends BaseEntity {
 	}
 
 
-	@NotNull
-	public Long getUser_id() {
-		return user_id;
-	}
-
-	public void setUser_id(Long user_id) {
-		this.user_id = user_id;
-	}
+//	@NotNull
+//	public Long getUser_id() {
+//		return user_id;
+//	}
+//
+//	public void setUser_id(Long user_id) {
+//		this.user_id = user_id;
+//	}
 
 	
 	

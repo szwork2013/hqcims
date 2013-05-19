@@ -27,31 +27,31 @@ import com.thinkgem.jeesite.common.persistence.BaseEntity;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
- * 应收Entity
+ * 实收Entity
  * @author wharlookingfor
- * @version 2013-05-12
+ * @version 2013-05-18
  */
 @Entity
-@Table(name = "cms_receivable")
-public class Receivable extends BaseEntity {
+@Table(name = "cms_collecting")
+public class Collecting extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
+	
 	private Long id; 		// 编号
 	private Date create_date;	// 创建日期
 	private String delFlag;	// 删除标记（0：正常；1：删除）
-	private Order order;//订单
-	private float amount;//应收金额
+	private Receivable receivable;//应收
+	private float amount;//实收金额
+	private float amount1;//小额调整
 	private Consumer consumer;//客户
-	private int status;
-	
+	private int flag;//实收来源 0订单 1还款
 
-	public Receivable() {
+	public Collecting() {
 		this.create_date = new Date();
 		this.delFlag = DEL_FLAG_NORMAL;
-		this.status=0;
 	}
 
-	public Receivable(Long id){
+	public Collecting(Long id){
 		this();
 		this.id = id;
 	}
@@ -69,14 +69,6 @@ public class Receivable extends BaseEntity {
 
 	
 
-	@NotNull
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
 
 	@NotNull
 	public Date getCreate_date() {
@@ -91,18 +83,38 @@ public class Receivable extends BaseEntity {
 
 
 	@OneToOne(cascade = {CascadeType.REFRESH},fetch=FetchType.EAGER)
-	@JoinColumn(name="order_id")
-	@NotNull
-	public Order getOrder() {
-		return order;
+	@JoinColumn(name="receivable_id")
+	@NotFound(action = NotFoundAction.IGNORE)
+	public Receivable getReceivable() {
+		return receivable;
 	}
-	public void setOrder(Order order) {
-		this.order = order;
+
+	public void setReceivable(Receivable receivable) {
+		this.receivable = receivable;
 	}
+
 	
 	@Length(min=1, max=1)
 	public String getDelFlag() {
 		return delFlag;
+	}
+
+
+	@NotNull
+	public float getAmount1() {
+		return amount1;
+	}
+
+	public void setAmount1(float amount1) {
+		this.amount1 = amount1;
+	}
+
+	public int getFlag() {
+		return flag;
+	}
+
+	public void setFlag(int flag) {
+		this.flag = flag;
 	}
 
 	public void setDelFlag(String delFlag) {

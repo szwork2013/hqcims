@@ -46,6 +46,18 @@ public interface CartDao extends CartDaoCustom, CrudRepository<Cart, Long> {
 	@Modifying
 	@Query("delete from Cart where id=?1 ")
 	public void delCart(Long id);
+
+	/** 
+	  * @Title: getCountCart 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @param user_id
+	  * @return   
+	  * @throws 
+	  */ 
+	
+	@Query("select count(c) from CartList c,Cart c1 where c1=c.cart and c1.user_id=?1 ")
+	public Long getCountCart(Long user_id);
 	
 	
 }

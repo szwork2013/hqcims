@@ -37,21 +37,34 @@ public class ReceivableService extends BaseService {
 		return receivableDao.findOne(id);
 	}
 	
-//	public Page<Receivable> find(Page<Receivable> page, Receivable receivable) {
-//		DetachedCriteria dc = receivableDao.createDetachedCriteria();
-//		if (receivable.getConsumer()!=null && receivable.getConsumer().getId()>0){
-//			dc.add(Restrictions.eq("user.id", receivable.getConsumer().getId()));
-//		}
-//		if (StringUtils.isNotEmpty(receivable.getName())){
-//			dc.add(Restrictions.like("name", "%"+receivable.getName()+"%"));
-//		}
-//		if (StringUtils.isNotEmpty(receivable.getRemarks())){
-//			dc.add(Restrictions.like("remarks", "%"+receivable.getRemarks()+"%"));
-//		}
-//		dc.add(Restrictions.eq("delFlag", Receivable.DEL_FLAG_NORMAL));
-//		dc.addOrder(Order.desc("id"));
-//		return receivableDao.find(page, dc);
-//	}
+	public Page<Receivable> find(Page<Receivable> page, Receivable receivable) {
+		DetachedCriteria dc = receivableDao.createDetachedCriteria();
+		if(receivable.getConsumer()!=null){
+			dc.createAlias("consumer", "consumer");
+			if(receivable.getConsumer().getId()!=null){
+				dc.add(Restrictions.eq("consumer.id", receivable.getConsumer().getId()));
+			}
+			if (StringUtils.isNotEmpty(receivable.getConsumer().getName())){
+				dc.add(Restrictions.like("consumer.name", "%"+receivable.getConsumer().getName()+"%"));
+			}
+			if (StringUtils.isNotEmpty(receivable.getConsumer().getCode())){
+				dc.add(Restrictions.like("consumer.code", "%"+receivable.getConsumer().getCode()+"%"));
+			}
+		}
+		
+		if(receivable.getOrder()!=null&&receivable.getOrder().getId()!=null){
+			System.out.println(receivable.getOrder().getId()+"");
+			if(receivable.getOrder().getId()>0){
+				dc.createAlias("order", "order");
+				dc.add(Restrictions.eq("order.id", receivable.getOrder().getId()));
+			}
+			
+		}
+		
+		dc.add(Restrictions.eq("delFlag", Receivable.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		return receivableDao.find(page, dc);
+	}
 	
 	@Transactional(readOnly = false)
 	public void save(Receivable receivable) {

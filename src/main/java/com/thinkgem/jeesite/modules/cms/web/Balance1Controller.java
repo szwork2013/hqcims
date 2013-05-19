@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.modules.cms.web;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,49 +22,37 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-import com.thinkgem.jeesite.modules.cms.entity.Goods;
+import com.thinkgem.jeesite.modules.cms.entity.Balance;
+import com.thinkgem.jeesite.modules.cms.entity.Balance1;
 import com.thinkgem.jeesite.modules.cms.entity.Receivable;
+import com.thinkgem.jeesite.modules.cms.service.Balance1Service;
+import com.thinkgem.jeesite.modules.cms.service.BalanceService;
 import com.thinkgem.jeesite.modules.cms.service.ReceivableService;
 
 /**
- * 应收Controller
+ * 欠款Controller
  * @author wharlookingfor
- * @version 2013-05-12
+ * @version 2013-05-18
  */
 @Controller
-@RequestMapping(value = Global.ADMIN_PATH+"/cms/receivable")
-public class ReceivableController extends BaseController {
-
+@RequestMapping(value = Global.ADMIN_PATH+"/cms/balance1")
+public class Balance1Controller extends BaseController {
 	@Autowired
-	private ReceivableService receivableService;
+	private Balance1Service balanceService;
 	
 	@ModelAttribute
-	public Receivable get(@RequestParam(required=false) Long id) {
-		if (id != null){
-			return receivableService.get(id);
-		}else{
-			return new Receivable();
-		}
+	public Balance1 get(@RequestParam(required=false) Long id) {
+
+			return new Balance1();
+		
 	}
 	
 	@RequestMapping(value = {"list", ""})
-	public String list(Receivable receivable, HttpServletRequest request, HttpServletResponse response, Model model) {
-
-        Page<Receivable> page = receivableService.find(new Page<Receivable>(request, response), receivable); 
+	public String list(Balance1 balance1, HttpServletRequest request, HttpServletResponse response, Model model) {
+        Page<Balance1> page = balanceService.find(new Page<Balance1>(request, response), balance1); 
         model.addAttribute("page", page);
-		return "modules/cms/receivableList";
+		return "modules/cms/balanceList";
 	}
-
-
-	@RequestMapping(value = "form")
-	public String form(Receivable receivable, Model model) {
-		model.addAttribute("receivable", receivable);
-		return "modules/cms/receivableForm";
-	}
-
-
-
-	
 
 	
 

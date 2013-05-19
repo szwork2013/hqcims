@@ -28,6 +28,7 @@ import com.thinkgem.jeesite.modules.cms.entity.Consumer;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
 import com.thinkgem.jeesite.modules.cms.entity.Order;
 import com.thinkgem.jeesite.modules.cms.entity.OrderList;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
  * 购物Service
@@ -113,6 +114,20 @@ public class CartService extends BaseService {
 
 
 	/** 
+	  * @Title: get 
+	  * @author lookingfor
+	  * @Description: 购物车的查询
+	  * @return   
+	  * @throws 
+	  */ 
+	public Long getCartCountByUser(Long user_id) {
+		//Long num=cartDao.getCountCart(user_id);
+		Long num=cartListDao.getCountCart(user_id);
+		return num;
+		
+	}
+	
+	/** 
 	  * @Title: update 
 	  * @author lookingfor
 	  * @Description: 购物车的修改
@@ -137,7 +152,7 @@ public class CartService extends BaseService {
 	  * @throws 
 	  */ 
 	@Transactional(readOnly = false)
-	public Order saveOrder(Long id, Long user_id, int status) {
+	public Order saveOrder(Long id, User user, int status) {
 		//第一步 根据ID从购物车查询数据
 		Cart cart=cartDao.findOne(id);
 		System.out.println(cart.getChildList().size()+"ssssssssssssssssss");
@@ -146,7 +161,7 @@ public class CartService extends BaseService {
 		Order order=new Order();
 		order.setConsumer(cart.getConsumer());
 		order.setStatus(status);
-		order.setUser_id(user_id);
+		order.setUser(user);
 		order =orderDao.save(order);
 		
 		List<CartList> childList=cart.getChildList();

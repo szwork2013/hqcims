@@ -39,6 +39,11 @@
 			window.location="${ctx}/cms/cart/";
 		}
 		
+		function doSubmit2(){
+			var id=$("#cart_id").val();
+			window.location="${ctx}/cms/cart/deleteAll?id="+id;
+		}
+		
 		function doSubmit(){
  			var ids="";
  			var sales="";
@@ -102,10 +107,11 @@
 		&nbsp;
 		<input id="btnQuery" class="btn btn-primary" type="submit" value="查询"/>
 		<input id="selectButton" class="btn btn-primary" type="button" value="选择客户"/>
-		<label>客户名称：</label><form:input path="consumer_name" htmlEscape="false"  class="input-medium"/>
+		<label>客户名称：</label><form:input path="consumer_name" htmlEscape="false"  class="input-medium" readonly="true"/>
 	</form:form>
 	<tags:message content="${message}"/>
-
+	<input type="hidden" value="${cart_id}" id="cart_id" />
+	<a href="javascript:doSubmit1()">当前购物车数量：${cart_num}</a>
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
 		<th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品助记码</th><th>进货价</th><th>销售价</th><th>上次销售价</th><th>客户名称</th><th>客户助记码</th><th>本次销售价格</th><th>本次销售数量</th>
@@ -134,8 +140,11 @@
 	<div class="pagination">${page}</div>
 	<div class="form-actions">
 		<div align="center">
-		<input id="btnButton"  class="btn btn-primary" type="button" value="保 存" onclick="doSubmit()"/>
+		<input id="btnButton"  class="btn btn-primary" type="button" value="加入购物车" onclick="doSubmit()"/>
 		<input id="btnButton"  class="btn btn-primary" type="button" value="查看购物车" onclick="doSubmit1()"/>
+		<c:if test="${cart_num>0&&cart_id>0}">
+		<input id="btnButton"  class="btn btn-primary" type="button" value="清空购物车" onclick="doSubmit2()"/>
+		</c:if>
 		</div>
 	</div>
 

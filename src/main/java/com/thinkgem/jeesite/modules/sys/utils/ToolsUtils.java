@@ -23,4 +23,8 @@ public class ToolsUtils {
 		System.out.println(str);
 		return str;
 	}
+	
+	public static Float getFloat(Float num){
+		return (float)(Math.round(num*100))/100;
+	}
 }

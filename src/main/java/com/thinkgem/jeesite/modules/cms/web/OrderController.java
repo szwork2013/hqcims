@@ -107,7 +107,7 @@ public class OrderController extends BaseController {
 	public String doReceivable(Long id, RedirectAttributes redirectAttributes) {
 		service.doReceivable(id);
 		addMessage(redirectAttributes, "操作成功");
-		return "redirect:"+Global.ADMIN_PATH+"/cms/order/?repage";
+		return "redirect:"+Global.ADMIN_PATH+"/cms/receivable/?repage";
 	}
 	
 	/** 
@@ -141,6 +141,23 @@ public class OrderController extends BaseController {
 		addMessage(redirectAttributes, "操作成功");
 		return "redirect:"+Global.ADMIN_PATH+"/cms/order/?repage";
 	}
+	
+	/** 
+	  * @Title: setStatus 
+	  * @author lookingfor
+	  * @Description: 有效订单设置为无效
+	  * @param id
+	  * @param redirectAttributes
+	  * @return   
+	  * @throws 
+	  */ 
+	@RequestMapping(value = "setStatus1")
+	public String setStatus1(Long id, RedirectAttributes redirectAttributes) {
+		service.setStatus1(id);
+		addMessage(redirectAttributes, "操作成功");
+		return "redirect:"+Global.ADMIN_PATH+"/cms/order/?repage";
+	}
+	
 	
 	
 	/** 

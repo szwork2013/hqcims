@@ -59,6 +59,14 @@
   
 
   
+    <function>
+    <description>获取当前两位小数</description>
+    <name>getFloat</name>
+    <function-class>com.thinkgem.jeesite.modules.sys.utils.ToolsUtils</function-class>
+    <function-signature>java.lang.Float getFloat(java.lang.Float)</function-signature>
+    <example>${getFloat('name')}</example>  
+  </function>
+  
   
   <function>
     <description>获取当前用户缓存</description>

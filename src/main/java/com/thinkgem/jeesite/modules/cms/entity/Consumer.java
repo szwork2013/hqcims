@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import com.thinkgem.jeesite.common.persistence.BaseEntity;
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
 
 /**
  * 客户维护Entity
@@ -26,15 +27,34 @@ import com.thinkgem.jeesite.common.persistence.BaseEntity;
 public class Consumer extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
+	@ExcelField(title="ID", type=1, align=2, sort=1)
 	private Long id; 		// 编号
+	
+	@ExcelField(title="名称", align=2, sort=10)
 	private String name; 	// 名称
+	
+	@ExcelField(title="助记码", align=2, sort=20)
 	private String code;//记住码
+	
+	@ExcelField(title="地址", align=2, sort=30)
 	private String address;//地址
+	
+	@ExcelField(title="店铺名称", align=2, sort=40)
 	private String shop_name;//店铺名称
+	
+	@ExcelField(title="店铺电话", align=2, sort=50)
 	private String shop_phone;//店铺联系电话
+	
+	@ExcelField(title="联系方式", align=2, sort=60)
 	private String phone;//客户联系方式
-	private int is_consumer;//是否代收客户  0是 1否
-	private int is_provider;//是否是供应商客户 0是1否
+	
+	@ExcelField(title="是否代收客户", align=2, sort=70,dictType="yes_no")
+	private Integer is_consumer;//是否代收客户  0是 1否
+	
+	@ExcelField(title="是否供应商客户", align=2, sort=80,dictType="yes_no")
+	private Integer is_provider;//是否是供应商客户 0是1否
+	
+	@ExcelField(title="备注", align=2, sort=90)
 	private String remarks; // 备注
 	private Date create_date;	// 创建日期
 	private String del_flag;	// 删除标记（0：正常；1：删除）
@@ -153,19 +173,19 @@ public class Consumer extends BaseEntity {
 		this.phone = phone;
 	}
 
-	public int getIs_consumer() {
+	public Integer getIs_consumer() {
 		return is_consumer;
 	}
 
-	public void setIs_consumer(int is_consumer) {
+	public void setIs_consumer(Integer is_consumer) {
 		this.is_consumer = is_consumer;
 	}
 
-	public int getIs_provider() {
+	public Integer getIs_provider() {
 		return is_provider;
 	}
 
-	public void setIs_provider(int is_provider) {
+	public void setIs_provider(Integer is_provider) {
 		this.is_provider = is_provider;
 	}
 

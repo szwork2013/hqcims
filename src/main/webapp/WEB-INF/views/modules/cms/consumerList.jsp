@@ -4,9 +4,13 @@
 <head>
 	<title>客户维护管理</title>
 	<meta name="decorator" content="default"/>
+		<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			$("#btnImport").click(function(){
+				$.jBox($("#importBox").html(), {title:"导入数据", buttons:{"关闭":true}, 
+					bottomText:"导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！"});
+			});
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -17,6 +21,15 @@
 	</script>
 </head>
 <body>
+	<div id="importBox" class="hide">
+		<form id="importForm" action="${ctx}/cms/consumer/import" method="post" enctype="multipart/form-data"
+			style="padding-left:20px;text-align:center;"><br/>
+			<input id="uploadFile" name="file" type="file" style="width:330px"/><br/><br/>　　
+			<input id="btnImportSubmit" class="btn btn-primary" type="submit" value="   导    入   "/>
+			<a href="${ctx}/cms/consumer/import/template">下载模板</a>
+		</form>
+	</div>
+	
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/cms/consumer/">客户列表</a></li>
 		<li><a href="${ctx}/cms/consumer/form">客户添加</a></li>
@@ -32,6 +45,8 @@
 		<label>地址 ：</label><form:input path="address" htmlEscape="false" maxlength="100" class="input-medium"/>
 		&nbsp;
 		<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+		&nbsp;
+		<input id="btnImport" class="btn btn-primary" type="button" value="导入"/>
 	</form:form>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered ">
@@ -44,8 +59,8 @@
 				<td><a href="${ctx}/cms/consumer/form?id=${consumer.id}">${consumer.name}</a></td>
 				<td>${consumer.code}</td>
 				<td>${consumer.address}</td>
-				<td>${consumer.is_consumer eq 1?'否':'是'}</td>
-				<td>${consumer.is_provider eq 1?'否':'是'}</td>
+				<td>${consumer.is_consumer eq 1?'是':'否'}</td>
+				<td>${consumer.is_provider eq 1?'是':'否'}</td>
 				<td>${consumer.shop_name}</td>
 				<td>${consumer.shop_phone}</td>
 				<td>${consumer.phone}</td>

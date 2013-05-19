@@ -241,7 +241,7 @@ public class CartController extends BaseController {
 	@RequestMapping(value = "saveOrder")
 	public String saveOrder(Long id,int status, RedirectAttributes redirectAttributes) {
 		User currentUser = UserUtils.getUser();
-		Order order=cartService.saveOrder(id,currentUser.getId(),status);
+		Order order=cartService.saveOrder(id,currentUser,status);
 		addMessage(redirectAttributes, "操作成功");
 		return "redirect:"+Global.ADMIN_PATH+"/cms/order/detailList?id="+order.getId();
 	}

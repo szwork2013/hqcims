@@ -149,7 +149,7 @@ public class OrderService extends BaseService {
 	public void delete(Long id) {
 		orderDao.deleteById(id);
 	}
-
+	
 	/** 
 	  * @Title: setStatus 
 	  * @author lookingfor
@@ -171,6 +171,31 @@ public class OrderService extends BaseService {
 		}
 		//修改状态
 		orderDao.updateStatus(id,0);
+		
+	}
+	
+
+	/** 
+	  * @Title: setStatus 
+	  * @author lookingfor
+	  * @Description: 有效订单设置无效
+	  * @param id   
+	  * @throws 
+	  */ 
+	@Transactional(readOnly = false)
+	public void setStatus1(Long id) {
+		//修改物品存量
+		List<OrderList> list=orderListDao.findById(id);
+		for(int i=0;i<list.size();i++){
+			OrderList orderList=list.get(i);
+			Goods good=orderList.getGoods();
+			int num=good.getNum();
+			good.setNum(num+orderList.getNum());
+			good.setUpdate_date(new Date());
+			goodsDao.save(good);
+		}
+		//修改状态
+		orderDao.updateStatus(id,1);
 		
 	}
 	/** 

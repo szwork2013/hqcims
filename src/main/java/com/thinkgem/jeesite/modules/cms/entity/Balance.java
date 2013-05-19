@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cache;
@@ -27,99 +28,22 @@ import com.thinkgem.jeesite.common.persistence.BaseEntity;
 import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
- * 应收Entity
+ * 欠款Entity
  * @author wharlookingfor
- * @version 2013-05-12
+ * @version 2013-05-18
  */
 @Entity
-@Table(name = "cms_receivable")
-public class Receivable extends BaseEntity {
+@Table(name = "cms_balance")
+public class Balance extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 	private Long id; 		// 编号
-	private Date create_date;	// 创建日期
+	private Date createDate;	// 创建日期
 	private String delFlag;	// 删除标记（0：正常；1：删除）
-	private Order order;//订单
-	private float amount;//应收金额
 	private Consumer consumer;//客户
-	private int status;
-	
-
-	public Receivable() {
-		this.create_date = new Date();
-		this.delFlag = DEL_FLAG_NORMAL;
-		this.status=0;
-	}
-
-	public Receivable(Long id){
-		this();
-		this.id = id;
-	}
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	private float amount;
 
 	
-
-	@NotNull
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-	@NotNull
-	public Date getCreate_date() {
-		return create_date;
-	}
-
-	public void setCreate_date(Date create_date) {
-		this.create_date = create_date;
-	}
-
-
-
-
-	@OneToOne(cascade = {CascadeType.REFRESH},fetch=FetchType.EAGER)
-	@JoinColumn(name="order_id")
-	@NotNull
-	public Order getOrder() {
-		return order;
-	}
-	public void setOrder(Order order) {
-		this.order = order;
-	}
-	
-	@Length(min=1, max=1)
-	public String getDelFlag() {
-		return delFlag;
-	}
-
-	public void setDelFlag(String delFlag) {
-		this.delFlag = delFlag;
-	}
-
-
-
-	@NotNull
-	public float getAmount() {
-		return amount;
-	}
-
-	public void setAmount(float amount) {
-		this.amount = amount;
-	}
-
 	@OneToOne(cascade = {CascadeType.REFRESH},fetch=FetchType.EAGER)
 	@JoinColumn(name="consumer_id")
 	@NotNull
@@ -130,6 +54,56 @@ public class Receivable extends BaseEntity {
 	public void setConsumer(Consumer consumer) {
 		this.consumer = consumer;
 	}
+	public Balance() {
+		this.createDate = new Date();
+		this.delFlag = DEL_FLAG_NORMAL;
+	}
+
+	public Balance(Long id){
+		this();
+		this.id = id;
+	}
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cms_balance")
+	//@SequenceGenerator(name = "seq_cms_balance", sequenceName = "seq_cms_balance")
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	@NotNull
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	@Length(min=1, max=1)
+	public String getDelFlag() {
+		return delFlag;
+	}
+
+	public void setDelFlag(String delFlag) {
+		this.delFlag = delFlag;
+	}
+	@NotNull
+	public float getAmount() {
+		return amount;
+	}
+
+	public void setAmount(float amount) {
+		this.amount = amount;
+	}
+
+	
+	
 	
 	
 }

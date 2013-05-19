@@ -16,6 +16,10 @@
 			var id=$("#id").val();
 			window.location="${ctx}/cms/order/setStatus?id="+id;
 		}
+		function setStatus1(){
+			var id=$("#id").val();
+			window.location="${ctx}/cms/order/setStatus1?id="+id;
+		}
 		function doReceivable(){
 			var id=$("#id").val();
 			window.location="${ctx}/cms/order/doReceivable?id="+id;
@@ -85,23 +89,26 @@
 
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
+		<!-- 
 		<c:if test="${order.status==0}">
 		<th><input type="checkbox" id="chkAll"></th>
 		</c:if>
+		 -->
 		
-		
-		<th>商品名称</th><th>商品助记码</th><th>进货价</th><th>销售价</th><th>本次销售价格</th><th>本次销售数量</th>
+		<th>商品名称</th><th>商品助记码</th><th>进货价</th><th>销售价</th><th>本次销售价格</th><th>本次销售数量</th><th>销售总金额</th>
+		<!-- 
 		<c:choose>
 		<c:when test="${order.status==0}">
 		<th>操作</th>
 		</c:when>
 		<c:otherwise></c:otherwise>
 		</c:choose>
-		
+		 -->
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${list}" var="childList" varStatus="st" >
 			<tr>
+				<!--  
 				 <c:if test="${order.status==0}">
 			     <td>
 			     
@@ -110,10 +117,15 @@
 			     >
 			     </td>
 			     </c:if>
+			     -->
 				<td>${childList.goods.name}</td>
 				<td>${childList.goods.code}</td>
 				<td>${childList.goods.purchase}</td>
 				<td>${childList.goods.sale}</td>
+				<td>${childList.sale}</td>
+				<td>${childList.num}</td>
+				<td>${fns:getFloat(childList.num*childList.sale)}</td>
+				<!-- 
 				<c:choose>
 				<c:when test="${order.status==0}">
 				<td><input type="text"   id="sale${childList.id}"  value="${childList.sale}" class="input-medium1"/></td>
@@ -127,7 +139,7 @@
 				<td>${childList.num}</td>
 				</c:otherwise>
 				</c:choose>
-				
+				 -->
 			</tr>
 		</c:forEach>
 		</tbody>
@@ -139,8 +151,11 @@
 			<input id="btnButton"  class="btn btn-primary" type="button" value="置为有效" onclick="setStatus()"/>&nbsp;&nbsp;
 		</c:if>
 		<c:if test="${order.status==0}">
+		<!--  
 			<input id="btnButton"  class="btn btn-primary" type="button" value="保存修改" onclick="doSave()"/>&nbsp;&nbsp;
-			<input id="btnButton"  class="btn btn-primary" type="button" value="进行应收" onclick="doReceivable()"/>&nbsp;&nbsp;
+		-->
+			<input id="btnButton"  class="btn btn-primary" type="button" value="纳入应收" onclick="doReceivable()"/>&nbsp;&nbsp;
+			<input id="btnButton"  class="btn btn-primary" type="button" value="置为无效" onclick="setStatus1()"/>&nbsp;&nbsp;
 			<!--  
 			<input id="btnButton"  class="btn btn-primary" type="button" value="打印订单" onclick="doPrint()"/>&nbsp;&nbsp;
 			-->

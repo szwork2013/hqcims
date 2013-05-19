@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.thinkgem.jeesite.common.persistence.BaseDao;
 import com.thinkgem.jeesite.common.persistence.BaseDaoImpl;
 import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.modules.cms.entity.Cart;
 import com.thinkgem.jeesite.modules.cms.entity.CartList;
 import com.thinkgem.jeesite.modules.cms.entity.OrderDetail;
 
@@ -61,6 +62,17 @@ public interface CartListDao extends CartListDaoCustom, CrudRepository<CartList,
 	  */ 
 	@Query("from CartList  order by id desc")
 	public List<CartList> findDetail();
+
+	/** 
+	  * @Title: getCountCart 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @param user_id
+	  * @return   
+	  * @throws 
+	  */ 
+	@Query("select count(c) from CartList c  where c.cart.user_id=?1 and c.cart.del_flag='" + Cart.DEL_FLAG_NORMAL + "' ")
+	public Long getCountCart(Long user_id);
 	
 }
 

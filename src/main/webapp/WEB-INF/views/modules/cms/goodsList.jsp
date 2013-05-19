@@ -4,8 +4,14 @@
 <head>
 	<title>商品管理</title>
 	<meta name="decorator" content="default"/>
+	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			
+			$("#btnImport").click(function(){
+				$.jBox($("#importBox").html(), {title:"导入数据", buttons:{"关闭":true}, 
+					bottomText:"导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！"});
+			});
 			
 		});
 		function page(n,s){
@@ -17,6 +23,15 @@
 	</script>
 </head>
 <body>
+	<div id="importBox" class="hide">
+		<form id="importForm" action="${ctx}/cms/goods/import" method="post" enctype="multipart/form-data"
+			style="padding-left:20px;text-align:center;"><br/>
+			<input id="uploadFile" name="file" type="file" style="width:330px"/><br/><br/>　　
+			<input id="btnImportSubmit" class="btn btn-primary" type="submit" value="   导    入   "/>
+			<a href="${ctx}/cms/goods/import/template">下载模板</a>
+		</form>
+	</div>
+	
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/cms/goods/">商品列表</a></li>
 		<li><a href="${ctx}/cms/goods/form">商品添加</a></li>
@@ -27,8 +42,8 @@
 		<label>名称 ：</label><form:input path="name" htmlEscape="false" maxlength="50" class="input-medium"/>
 		&nbsp;
 		<label>助记码 ：</label><form:input path="code" htmlEscape="false" maxlength="50" class="input-medium"/>
-		&nbsp;
-		<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+		&nbsp;<input id="btnImport" class="btn btn-primary" type="button" value="导入"/>
 	</form:form>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered ">
