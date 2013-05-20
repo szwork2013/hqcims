@@ -7,6 +7,7 @@
 		<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<script type="text/javascript">
 		$(document).ready(function() {
+            $("#code").focus();
 			$("#btnImport").click(function(){
 				$.jBox($("#importBox").html(), {title:"导入数据", buttons:{"关闭":true}, 
 					bottomText:"导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！"});
@@ -52,18 +53,17 @@
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead>
 		<tr>
-		<th>名称</th><th>助记码</th><th>地址</th><th>是否代收客户</th><th>是否供应商客户</th><th>店铺名称</th><th>店铺电话</th><th>客户联系电话</th><th>操作</th></tr></thead>
+		<th>名称</th><th>助记码</th><th>地址</th><th>店铺名称</th><th>店铺电话</th><th>客户联系电话</th><th>是否供应商客户</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="consumer">
 			<tr>
 				<td><a href="${ctx}/cms/consumer/form?id=${consumer.id}">${consumer.name}</a></td>
 				<td>${consumer.code}</td>
 				<td>${consumer.address}</td>
-				<td>${consumer.is_consumer eq 1?'是':'否'}</td>
-				<td>${consumer.is_provider eq 1?'是':'否'}</td>
 				<td>${consumer.shop_name}</td>
 				<td>${consumer.shop_phone}</td>
 				<td>${consumer.phone}</td>
+                <td>${consumer.is_provider eq 1?'是':'否'}</td>
 				<td>
     				<a href="${ctx}/cms/consumer/form?id=${consumer.id}">修改</a>
 					<a href="${ctx}/cms/consumer/delete?id=${consumer.id}" onclick="return confirmx('确认要删除该客户维护吗？', this.href)">删除</a>

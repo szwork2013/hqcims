@@ -3,13 +3,15 @@
  */
 package com.thinkgem.jeesite.modules.cms.web;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.google.common.collect.Lists;
+import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
+import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.cms.entity.Goods;
+import com.thinkgem.jeesite.modules.cms.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,19 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.common.collect.Lists;
-import com.thinkgem.jeesite.common.beanvalidator.BeanValidators;
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
-import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.cms.entity.Goods;
-import com.thinkgem.jeesite.modules.cms.entity.OrderDetail;
-import com.thinkgem.jeesite.modules.cms.service.GoodsService;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.service.SystemService;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
+import java.util.List;
 
 /**
  * 商品Controller
@@ -54,16 +47,27 @@ public class GoodsController extends BaseController {
 			return new Goods();
 		}
 	}
-	
+
+    @RequestMapping(value = "save")
+    public String save(Goods goods, Model model, RedirectAttributes redirectAttributes) {
+        System.out.println("验证之前");
+        if (!beanValidator(model, goods)){
+            return form(goods, model);
+        }
+        goodsService.save(goods);
+        addMessage(redirectAttributes, "保存商品'" + goods.getName() + "'成功");
+        return "redirect:"+Global.ADMIN_PATH+"/cms/goods/?repage";
+    }
+
+
+
+
 	@RequestMapping(value = {"list", ""})
 	public String list(Goods goods, HttpServletRequest request, HttpServletResponse response, Model model) {
-        Page<Goods> page = goodsService.find(new Page<Goods>(request, response), goods); 
+        Page<Goods> page = goodsService.find(new Page<Goods>(request, response), goods);
         model.addAttribute("page", page);
 		return "modules/cms/goodsList";
 	}
-
-
-	
 
 	@RequestMapping(value = "form")
 	public String form(Goods goods, Model model) {
@@ -71,18 +75,6 @@ public class GoodsController extends BaseController {
 		return "modules/cms/goodsForm";
 	}
 
-
-	@RequestMapping(value = "save")
-	public String save(Goods goods, Model model, RedirectAttributes redirectAttributes) {
-		System.out.println("验证之前");
-		if (!beanValidator(model, goods)){
-			return form(goods, model);
-		}
-		goodsService.save(goods);
-		addMessage(redirectAttributes, "保存商品'" + goods.getName() + "'成功");
-		return "redirect:"+Global.ADMIN_PATH+"/cms/goods/?repage";
-	}
-	
 
 	@RequestMapping(value = "delete")
 	public String delete(Long id, RedirectAttributes redirectAttributes) {

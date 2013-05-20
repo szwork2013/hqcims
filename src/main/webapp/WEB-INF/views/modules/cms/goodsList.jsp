@@ -7,7 +7,7 @@
 	<%@include file="/WEB-INF/views/include/dialog.jsp" %>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			$("#code").focus();
 			$("#btnImport").click(function(){
 				$.jBox($("#importBox").html(), {title:"导入数据", buttons:{"关闭":true}, 
 					bottomText:"导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！"});
@@ -48,19 +48,19 @@
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th>名称</th><th>助记码</th><th>进货价</th><th>销售价</th><th>数量</th><th>单位</th><th>产地</th><th>规格</th><th>备注</th><th>操作</th>
+		<th>商品名称</th><th>规格型号</th><th>助记码</th><th>商品产地</th><th>单位</th><th>数量</th><th>进货价</th><th>销售价</th><th>备注</th><th>操作</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="goods">
 			<tr>
 				<td><a href="${ctx}/cms/goods/form?id=${goods.id}">${goods.name}</a></td>
+                <td>${goods.brand}</td>
 				<td>${goods.code}</td>
+                <td>${goods.origin}</td>
+                <td>${goods.unit}</td>
+                <td>${goods.num}</td>
 				<td>${goods.purchase}</td>
 				<td>${goods.sale}</td>
-				<td>${goods.num}</td>
-				<td>${goods.unit}</td>
-				<td>${goods.origin}</td>
-				<td>${goods.brand}</td>
 				<td>${goods.remarks}</td>
 				<td>
     				<a href="${ctx}/cms/goods/form?id=${goods.id}">修改</a>

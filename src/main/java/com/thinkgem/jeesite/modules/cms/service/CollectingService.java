@@ -42,6 +42,9 @@ public class CollectingService extends BaseService {
 
 		if(collecting.getConsumer()!=null){
 			dc.createAlias("consumer", "consumer");
+            if(collecting.getConsumer().getId()!=null){
+                dc.add(Restrictions.eq("consumer.id", collecting.getConsumer().getId()));
+            }
 			if (StringUtils.isNotEmpty(collecting.getConsumer().getName())){
 				dc.add(Restrictions.like("consumer.name", "%"+collecting.getConsumer().getName()+"%"));
 			}

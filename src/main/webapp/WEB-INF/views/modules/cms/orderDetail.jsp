@@ -7,6 +7,7 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
+                $("#goods_code").focus();
 				$("#chkAll").bind("click", function () {
 		                $("[name = goods_id]:checkbox").attr("checked", this.checked);
 		         });

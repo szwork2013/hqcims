@@ -44,7 +44,7 @@
 				<td>${balance1.bamount}</td>
 				<c:choose>
 				<c:when test="${balance1.ramount>0}">
-				<td><a href="${ctx}/cms/receivable/list?consumer.id=${balance1.id}">${balance1.ramount}</a></td>
+				<td><a href="${ctx}/cms/receivable/blist?consumer.id=${balance1.id}">${balance1.ramount}</a></td>
 				</c:when>
 				<c:otherwise>
 				<td>${balance1.ramount}</td>
@@ -53,7 +53,7 @@
 				
 				<c:choose>
 				<c:when test="${balance1.camount>0}">
-				<td>${balance1.camount}</td>
+				<td><a href="${ctx}/cms/collecting/blist?consumer.id=${balance1.id}">${balance1.camount}</a></td>
 				</c:when>
 				<c:otherwise>
 				<td>${balance1.camount}</td>
