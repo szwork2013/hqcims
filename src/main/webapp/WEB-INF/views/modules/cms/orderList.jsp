@@ -7,9 +7,10 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-				$("#chkAll").bind("click", function () {
-		                $("[name = goods_id]:checkbox").attr("checked", this.checked);
-		         });
+            $("#code").focus();
+			$("#chkAll").bind("click", function () {
+		        $("[name = goods_id]:checkbox").attr("checked", this.checked);
+		    });
 			 
 		});
 		function page(n,s){
@@ -24,13 +25,18 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a>订单管理</a></li>
 	</ul>
-	<form:form id="searchForm" modelAttribute="order" action="${ctx}/cms/order/" method="post">
+	<form:form id="searchForm" modelAttribute="order" action="${ctx}/cms/order/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
+        <div>
 		<label>客户名称 ：</label><form:input path="consumer.name" htmlEscape="false" maxlength="50" class="input-medium"/>
 		&nbsp;
-		<label>助记码 ：</label><form:input path="consumer.code" htmlEscape="false" maxlength="50" class="input-medium"/>
+		<label>助&nbsp;记&nbsp;码&nbsp; ：</label>&nbsp;<form:input path="consumer.code" id="code"  htmlEscape="false" maxlength="50" class="input-medium"/>
 		&nbsp;
+        </div>
+        <div style="margin-top:8px;">
+        <label>订单编号 ：</label><form:input path="query" htmlEscape="false" maxlength="50" class="input-medium"/>
+        &nbsp;
 		<label>订单状态 ：</label>
 		<form:select path="status" class="input-medium">
 		   <form:options items="${fns:getDictList('order_status')}" itemLabel="label" itemValue="value" htmlEscape="false" />
@@ -39,6 +45,7 @@
 		</form:select>
 		&nbsp;
 		<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
+        </div>
 	</form:form>
 	<tags:message content="${message}"/>
 
@@ -63,18 +70,17 @@
 				<td><fmt:formatDate value="${order.create_date}" type="both"/></td>
 				<td>${order.user.name}</td>
 				<td>
-				<a href="${ctx}/cms/order/detailList?id=${order.id}">查看</a>
 				<c:choose>
 				<c:when test="${order.status==1}">
 				<a href="${ctx}/cms/order/delete?id=${order.id}" onclick="return confirmx('确认要删除该订单吗？', this.href)">删除</a>
 				<a href="${ctx}/cms/order/setStatus?id=${order.id}" onclick="return confirmx('确认要将该订单设置为有效吗？', this.href)">置为有效</a>
 				</c:when>
 				<c:when test="${order.status==0}">
-				<a href="${ctx}/cms/order/doReceivable?id=${order.id}" onclick="return confirmx('确认要纳入应收吗？', this.href)">纳入应收</a>
+				<a href="${ctx}/cms/order/doReceivable?id=${order.id}" onclick="return confirmx('确认要纳入应收吗？', this.href)">应收</a>
+                    <a href="${ctx}/cms/order/doReceivable?id=${order.id}" onclick="return confirmx('确认要进行现金实收吗？', this.href)">实收</a>
+                    <a href="${ctx}/cms/order/doReceivable?id=${order.id}" onclick="return confirmx('确认要进行代收款吗？', this.href)">代收</a>
+                    <a href="${ctx}/cms/order/doReceivable?id=${order.id}" onclick="return confirmx('确认要纳入欠款吗？', this.href)">欠款</a>
 				<a href="${ctx}/cms/order/setStatus1?id=${order.id}" onclick="return confirmx('确认要将该订单设置为无效吗？', this.href)">置为无效</a>
-				<!--  
-				<a href="${ctx}/cms/order/doPrint?id=${order.id}" onclick="return confirmx('确认要将进行应收吗？', this.href)">打印订单</a>
-				-->
 				</c:when>
 				<c:otherwise></c:otherwise>
 				</c:choose>

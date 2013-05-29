@@ -8,8 +8,8 @@
 	-->
 
 	<select id="queryOrderDetail" resultType="com.thinkgem.jeesite.modules.cms.entity.OrderDetail" parameterType="map">
-		select goods_id,goods_name,goods_code,purchase,sale,last_sale,consumer_code,consumer_name from 
-		(select cg.id as goods_id,cg.name as goods_name,cg.code as goods_code,cg.purchase,cg.sale,table1.cname as consumer_name,table1.ccode as consumer_code 
+		select goods_id,goods_name,goods_code,purchase,sale,brand,last_sale,consumer_code,consumer_name from
+		(select cg.id as goods_id,cg.name as goods_name,cg.code as goods_code,cg.purchase,cg.sale,cg.brand,table1.cname as consumer_name,table1.ccode as consumer_code
 		from cms_goods as cg,
 		(select name as cname,code as ccode from cms_consumer where id=#{consumer_id}) as table1) as table2
 		left join

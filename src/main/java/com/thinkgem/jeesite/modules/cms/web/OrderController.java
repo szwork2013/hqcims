@@ -3,12 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.cms.web;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.cms.entity.Order;
+import com.thinkgem.jeesite.modules.cms.entity.OrderList;
+import com.thinkgem.jeesite.modules.cms.service.OrderService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,20 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.cms.entity.Cart;
-import com.thinkgem.jeesite.modules.cms.entity.CartList;
-import com.thinkgem.jeesite.modules.cms.entity.Consumer;
-import com.thinkgem.jeesite.modules.cms.entity.Goods;
-import com.thinkgem.jeesite.modules.cms.entity.Order;
-import com.thinkgem.jeesite.modules.cms.entity.OrderDetail;
-import com.thinkgem.jeesite.modules.cms.entity.OrderList;
-import com.thinkgem.jeesite.modules.cms.service.GoodsService;
-import com.thinkgem.jeesite.modules.cms.service.OrderService;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 商品Controller
@@ -67,6 +57,15 @@ public class OrderController extends BaseController {
 	  */ 
 	@RequestMapping(value = {"list", ""})
 	public String list(Order order, HttpServletRequest request, HttpServletResponse response, Model model) {
+        Long id=0L;
+        if(StringUtils.isNotBlank(order.getQuery())){
+            try {
+                id=Long.parseLong(order.getQuery());
+            } catch (NumberFormatException e) {
+                id=0L;
+            }
+        }
+        order.setId(id);
         Page<Order> page = service.find(new Page<Order>(request, response), order); 
         model.addAttribute("page", page);
 		return "modules/cms/orderList";

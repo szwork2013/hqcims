@@ -83,6 +83,8 @@
 	<div class="breadcrumb form-search">	
 		<label>客户名称：${order.consumer.name}</label>&nbsp;&nbsp;
 		<label>客户助记码：${order.consumer.code}</label>&nbsp;&nbsp;
+        <label>地址：${order.consumer.address}</label>&nbsp;&nbsp;
+        <label>电话：${order.consumer.phone}</label>&nbsp;&nbsp;
 		<label>本次订单总金额：${order.total}</label>&nbsp;&nbsp;
 	</div>
 	<tags:message content="${message}"/>

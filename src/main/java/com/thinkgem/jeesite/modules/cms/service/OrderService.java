@@ -80,7 +80,9 @@ public class OrderService extends BaseService {
 		if(order.getStatus()>=0){
 			dc.add(Restrictions.eq("status", order.getStatus()));
 		}
-		
+        if(order.getId()>0){
+            dc.add(Restrictions.eq("id", order.getId()));
+        }
 		dc.add(Restrictions.eq("del_flag", Consumer.DEL_FLAG_NORMAL));
 		dc.addOrder(org.hibernate.criterion.Order.desc("create_date"));
 		return orderDao.find(page, dc);

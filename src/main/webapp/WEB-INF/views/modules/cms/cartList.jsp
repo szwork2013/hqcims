@@ -31,8 +31,6 @@
 		}
 		function doSubmit1(){
 			window.location="${ctx}/cms/orderDetail/";
-//			var url="${ctx}/cms/orderDetail/";
-//			confirmx('确认继续添加？', url);
 		}
 		function doSubmit3(){
 			var id=$("#id").val();
@@ -60,41 +58,57 @@
  			var ids="";
  			var sales="";
  			var nums="";
+            var status=0;
+            var mess="";
 			 $('input:checkbox[name="goods_id"]:checked').each(function(i,val){  
 				
-			 			var id=$(this).val();
-			 			var sale=$("#sale"+val.value).val();
-			 			var num=$("#num"+val.value).val();
-			 			if(!isNaN(sale)&&!isNaN(num)){
-			 				ids+=id+"@";
-			 				sales+=sale+"@";
-			 				nums+=num+"@";
-			 			}else{
-						      top.$.jBox.tip("请确保输入的数字正确", 'info');
-						      return false;
-			 		   }
+                    var id=$(this).val();
+                    var sale=$("#sale"+val.value).val();
+                    var num=$("#num"+val.value).val();
+                    var purchase=$("#purchase"+val.value).val();
+                    if(!isNaN(sale)&&!isNaN(num)){
+                         if(parseFloat(sale)<parseFloat(purchase)){
+                             status=1;
+                             mess="请确保销售价格不低于进货价格";
+                             return false;
+                         }else{
+                             ids+=id+"@";
+                             sales+=sale+"@";
+                             nums+=num+"@";
+                             status=3;
+                         }
+                     }else{
+                         status=2;
+                         mess="请确保输入的数字正确";
+                         return false;
+                    }
 					        
-			 });  
-			
-				var url="${ctx}/cms/cart/saveList";
-				//url+="?ids="+ids+"&sales="+sales+"&nums="+nums+"&consumer_id="+$("#consumer_id").val()+"&id="+$("#id").val();
-				$.post(url, 
-						{
-					    ids:ids,
-					    sales:sales,
-					    nums:nums,
-					    consumer_id:$("#consumer_id").val(),
-					    id:$("#id").val()
-						},
-						function (data, textStatus){
-							if(data=="success"){
-								top.$.jBox.tip("保存成功", 'info');
-								$("#searchForm").submit();
-							}else{
-								top.$.jBox.tip("保存失败", 'info');
-							}
-						}, "text");
-				
+			 });
+
+            if(status==3||status==0){
+                var url="${ctx}/cms/cart/saveList";
+                //url+="?ids="+ids+"&sales="+sales+"&nums="+nums+"&consumer_id="+$("#consumer_id").val()+"&id="+$("#id").val();
+                $.post(url,
+                        {
+                            ids:ids,
+                            sales:sales,
+                            nums:nums,
+                            consumer_id:$("#consumer_id").val(),
+                            id:$("#id").val()
+                        },
+                        function (data, textStatus){
+                            if(data=="success"){
+                                top.$.jBox.tip("保存成功", 'info');
+                                $("#searchForm").submit();
+                            }else{
+                                top.$.jBox.tip("保存失败", 'info');
+                            }
+                        }, "text");
+
+            }else{
+                top.$.jBox.tip(mess, 'info');
+                return false;
+            }
 		}
 	</script>
 	<style type="text/css">
@@ -118,7 +132,7 @@
 
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品助记码</th><th>进货价</th><th>销售价</th><th>本次销售价格</th><th>本次销售数量</th><th>操作</th>
+		<th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th style="display:none;">进货价</th><th>本次销售价格</th><th>本次销售数量</th><th>操作</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${list}" var="childList" varStatus="st" >
@@ -127,9 +141,9 @@
 			     <c:if test="${st.index==0}"> checked</c:if>
 			     ></td>
 				<td>${childList.goods.name}</td>
+                <td>${childList.goods.brand}</td>
 				<td>${childList.goods.code}</td>
-				<td>${childList.goods.purchase}</td>
-				<td>${childList.goods.sale}</td>
+                <td style="display:none;"><input type="text"   id="purchase${childList.id}"  value="${childList.goods.purchase}" /> </td>
 				<td><input type="text"   id="sale${childList.id}"  value="${childList.sale}" class="input-medium1"/></td>
 				<td><input type="text"   id="num${childList.id}"  value="${childList.num}" class="input-medium1" /></td>
 				<td>

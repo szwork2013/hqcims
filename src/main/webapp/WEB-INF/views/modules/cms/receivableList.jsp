@@ -6,7 +6,7 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+            $("#code").focus();
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -25,7 +25,7 @@
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<label>名称 ：</label><form:input path="consumer.name" htmlEscape="false" maxlength="50" class="input-medium"/>
 		&nbsp;
-		<label>助记码 ：</label><form:input path="consumer.code" htmlEscape="false" maxlength="50" class="input-medium"/>
+		<label>助记码 ：</label><form:input path="consumer.code" id="code" htmlEscape="false" maxlength="50" class="input-medium"/>
 		&nbsp;
 		<label>订单编号 ：</label><form:input path="order.id" htmlEscape="false"  class="input-medium"/>
 		&nbsp;

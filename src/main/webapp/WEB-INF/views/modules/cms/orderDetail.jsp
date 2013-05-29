@@ -49,42 +49,58 @@
  			var ids="";
  			var sales="";
  			var nums="";
+            var status=0;
+            var mess="";
 			 $('input:checkbox[name="goods_id"]:checked').each(function(i,val){  
 			 			var goods_id=$(this).val();
 			 			var sale=$("#sale"+val.value).val();
 			 			var num=$("#num"+val.value).val();
+                        var purchase=$("#purchase"+val.value).val();
+
 			 			if(!isNaN(sale)&&!isNaN(num)){
-			 				ids+=goods_id+"@";
-			 				sales+=sale+"@";
-			 				nums+=num+"@";
+                            if(parseFloat(sale)<parseFloat(purchase)){
+                               status=1;
+                                mess="请确保销售价格不低于进货价格";
+                                return false;
+                            }else{
+                                ids+=goods_id+"@";
+                                sales+=sale+"@";
+                                nums+=num+"@";
+                                status=3;
+                            }
 			 			}else{
-						      top.$.jBox.tip("请确保输入的数字正确", 'info');
-						      return false;
+						    status=2;
+                            mess="请确保输入的数字正确";
+                            return false;
 			 		   }
 					        
-			 });  
-			if(ids.length>0){
-				var url="${ctx}/cms/cart/save";
-				//url+="?goods_ids="+ids+"&sales="+sales+"&nums="+nums+"&consumer_id="+$("#consumer_id").val();
-				$.post(url, 
-						{
-					    goods_ids:ids,
-					    sales:sales,
-					    nums:nums,
-					    consumer_id:$("#consumer_id").val()
-						},
-						function (data, textStatus){
-							if(data=="success"){
-								top.$.jBox.tip("保存成功", 'info');
-								$("#searchForm").submit();
-							}else{
-								top.$.jBox.tip("保存失败", 'info');
-							}
-						}, "text");
-			}else{
-				top.$.jBox.tip("请选择物品", 'info');
-			      return false;
-			}
+			 });
+            if(status==0){
+                top.$.jBox.tip("请选择物品", 'info');
+                return false;
+            }else if(status==3){
+                var url="${ctx}/cms/cart/save";
+                //url+="?goods_ids="+ids+"&sales="+sales+"&nums="+nums+"&consumer_id="+$("#consumer_id").val();
+                $.post(url,
+                        {
+                            goods_ids:ids,
+                            sales:sales,
+                            nums:nums,
+                            consumer_id:$("#consumer_id").val()
+                        },
+                        function (data, textStatus){
+                            if(data=="success"){
+                                top.$.jBox.tip("保存成功", 'info');
+                                $("#searchForm").submit();
+                            }else{
+                                top.$.jBox.tip("保存失败", 'info');
+                            }
+                        }, "text");
+
+            }else{
+                top.$.jBox.tip(mess, 'info');
+                return false;
+            }
 			
 		}
 	</script>
@@ -115,7 +131,7 @@
 	<a href="javascript:doSubmit1()">当前购物车数量：${cart_num}</a>
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品助记码</th><th>进货价</th><th>销售价</th><th>上次销售价</th><th>客户名称</th><th>客户助记码</th><th>本次销售价格</th><th>本次销售数量</th>
+		<th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th style="display:none;">进货价</th><th>销售价</th><th>上次销售价</th><th>客户名称</th><th>客户助记码</th><th>本次销售价格</th><th>本次销售数量</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="orderDetail" varStatus="st" >
@@ -124,10 +140,11 @@
 			     <c:if test="${st.index==0}"> checked</c:if>
 			     ></td>
 				<td>${orderDetail.goods_name}</td>
+                <td>${orderDetail.brand}</td>
 				<td>${orderDetail.goods_code}</td>
-				<td>${orderDetail.purchase}</td>
+                <td style="display:none;"><input type="text"   id="purchase${orderDetail.goods_id}"  value="${orderDetail.purchase}" /> </td>
 				<td>${orderDetail.sale}</td>
-				<td>${orderDetail.last_sale}</td>
+				<td style="color:red">${orderDetail.last_sale}</td>
 				<td>${orderDetail.consumer_name}</td>
 				<td>${orderDetail.consumer_code}</td>
 				<form:form id="form${orderDetail.goods_id}" >

@@ -2,11 +2,33 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>欠款管理</title>
+	<title>还款管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+        function consumerSelect(id,title){
+            var values=title.split("欠款:");
+            $("#consumer_id").attr("value",id);
+            $("#consumer_name").attr("value",values[0]);
+            $("#amount").attr("value",values[1]);
+        }
+
+
 		$(document).ready(function() {
-			$("#name").focus();
+			$("#amount").focus();
+            // 验证值小数位数不能超过两位
+            jQuery.validator.addMethod("decimal", function(value, element) {
+                var decimal = /^-?\d+(\.\d{1,2})?$/;
+                return this.optional(element) || (decimal.test(value));
+            }, $.validator.format("小数位数不能超过两位!"));
+
+            $("#selectButton").click(function(){
+                top.$.jBox.open("iframe:${ctx}/cms/balance1/selectList?pageSize=8", "选择用户",$(top.document).width()-220,$(top.document).height()-180,{
+                    buttons:{"确定":true}, loaded:function(h){
+                        $(".jbox-content", top.document).css("overflow-y","hidden");
+                    }
+                });
+            });
+
 			$("#inputForm").validate({
 				submitHandler: function(form){
 					loading('正在提交，请稍等...');
@@ -26,29 +48,30 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/cms/balance/">欠款列表</a></li>
-		<li class="active"><a href="${ctx}/cms/balance/form?id=${balance.id}">欠款${not empty balance.id?'修改':'添加'}</a></li>
-	</ul><br/>
-	<form:form id="inputForm" modelAttribute="balance" action="${ctx}/cms/balance/save" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
+<ul class="nav nav-tabs">
+    <li><a href="${ctx}/cms/balance1/">欠款列表</a></li>
+    <li class="active"><a href="${ctx}/cms/collecting/form">客户还款</a></li>
+</ul><br/>
+	<form id="inputForm" action="${ctx}/cms/collecting/save1" method="post" class="form-horizontal">
+        <input type="hidden" id="consumer_id" name="consumer_id"/>
 		<tags:message content="${message}"/>
 		<div class="control-group">
-			<label class="control-label">名称:</label>
+			<label class="control-label">客户名称:</label>
 			<div class="controls">
-				<form:input path="name" htmlEscape="false" maxlength="11" class="required"/>
+                <input type="text" id="consumer_name" name="consumer_name"  htmlEscape="false" maxlength="50" class="input-medium required" readonly="true"/>
+                <input id="selectButton" class="btn btn-primary" type="button" value="选择客户"/>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">备注:</label>
-			<div class="controls">
-				<form:input path="remarks" htmlEscape="false" maxlength="50" class="required"/>
-			</div>
-		</div>
+        <div class="control-group">
+            <label class="control-label">还款金额:</label>
+            <div class="controls">
+                <input type="text" id="amount" name="amount" htmlEscape="false" maxlength="50" class="input-medium decimal required" />
+            </div>
+        </div>
 		<div class="form-actions">
 			<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
-	</form:form>
+	</form>
 </body>
 </html>

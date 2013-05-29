@@ -1,12 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<%--
+  ~ Copyright (c) 2013.
+  ~ whatlookingfor@gmail.com
+  --%>
+
 <html>
 <head>
-	<title>欠款管理</title>
+	<title>选择客户</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-            $("#code").focus();
+            $(this).click(function(){
+                var radioBox=$("input[name='radio']:checked");
+                var id = radioBox.val(), title =radioBox.attr("title");
+                if (top.mainFrame.cmsMainFrame){
+                    top.mainFrame.cmsMainFrame.consumerSelect(id, title);
+                }else{
+                    top.mainFrame.consumerSelect(id, title);
+                }
+            });
 		});
 		function page(n,s){
 			$("#pageNo").val(n);
@@ -17,11 +30,8 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-        <li class="active"><a href="${ctx}/cms/balance1/">欠款列表</a></li>
-        <li><a href="${ctx}/cms/collecting/form">客户还款</a></li>
-	</ul>
-	<form:form id="searchForm" modelAttribute="balance1" action="${ctx}/cms/balance1/" method="post" class="breadcrumb form-search">
+    <div style="margin:10px;">
+	<form:form id="searchForm" modelAttribute="balance1" action="${ctx}/cms/balance1/selectList" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<label>名称 ：</label><form:input path="name" htmlEscape="false" maxlength="50" class="input-medium"/>
@@ -34,36 +44,24 @@
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th>客户名称</th><th>助记码注</th><th>欠款总额</th><th>应收总额</th><th>实收总额</th>
+            <th style="text-align:center;">选择</th><th>客户名称</th><th>助记码注</th><th>欠款总额</th><th>应收总额</th><th>实收总额</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="balance1">
 			<tr>
-				
+                <td style="text-align:center;"><input type="radio" name="radio" value="${balance1.id}"  title="${balance1.name}欠款:${balance1.bamount}" /></td>
 				<td>${balance1.name}</td>
 				<td>${balance1.code}</td>
 				<td>${balance1.bamount}</td>
-				<c:choose>
-				<c:when test="${balance1.ramount>0}">
-				<td><a href="${ctx}/cms/receivable/blist?consumer.id=${balance1.id}">${balance1.ramount}</a></td>
-				</c:when>
-				<c:otherwise>
+
 				<td>${balance1.ramount}</td>
-				</c:otherwise>
-				</c:choose>
-				
-				<c:choose>
-				<c:when test="${balance1.camount>0}">
-				<td><a href="${ctx}/cms/collecting/blist?consumer.id=${balance1.id}">${balance1.camount}</a></td>
-				</c:when>
-				<c:otherwise>
+
 				<td>${balance1.camount}</td>
-				</c:otherwise>
-				</c:choose>
 			</tr>
 		</c:forEach>
 		</tbody>
 	</table>
 	<div class="pagination">${page}</div>
+    </div>
 </body>
 </html>

@@ -8,11 +8,14 @@
 	-->
 
 	<select id="queryBalance" resultType="com.thinkgem.jeesite.modules.cms.entity.Balance1" parameterType="map">
-		select u.name,u.code,u.id,sum(r.amount) as ramount,sum(c.amount) as camount,sum(b.amount) as bamount
-		from cms_balance as b inner join cms_consumer as u on b.consumer_id=u.id
-	    left join cms_receivable as r on b.consumer_id=r.consumer_id
-	    left join cms_collecting as c on b.consumer_id=c.consumer_id 
-		<where>
+		select u.name,u.code,u.id, ramount,camount, bamount
+        from (SELECT sum(amount) as bamount,consumer_id FROM cms_balance group by consumer_id) as b
+        inner join cms_consumer as u on b.consumer_id=u.id
+        left join (SELECT sum(amount) as ramount,consumer_id FROM cms_receivable group by consumer_id)as r
+        on b.consumer_id=r.consumer_id
+        left join (SELECT sum(amount) as camount,consumer_id FROM cms_collecting group by consumer_id)as c
+        on b.consumer_id=c.consumer_id
+        <where>
 		<if test="code!=null and code.length()>0">
 		 and u.code like '%${code}%'
 		</if>

@@ -28,17 +28,23 @@ public class OrderDetail implements Serializable{
 	private int goods_id;//产品ID
 	private String goods_name;//产品名称
 	private String goods_code;//产品记住码
+    private String brand;
 	private float purchase;//进货价格
 	private float  sale;//销售价格
 	private float last_sale;//上次销售价格
 	private String consumer_name;//客户名称
 	private String consumer_code;//客户助记码
 	private Long consumer_id;
-	
-	
-	
-	
-	public OrderDetail() {
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public OrderDetail() {
 		this.consumer_name = "散户";
 		this.consumer_id = 1L;
 	}

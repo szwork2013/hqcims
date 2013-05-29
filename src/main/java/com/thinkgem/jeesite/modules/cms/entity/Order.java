@@ -43,9 +43,18 @@ public class Order extends BaseEntity {
 //	private List<OrderList> childList;
 	private float total;//总计
 	private int status=-1;//状态 0有效 1无效
-	
-	
-	@NotNull	
+    private String query;
+
+    @Transient
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    @NotNull
 	public int getStatus() {
 		return status;
 	}
