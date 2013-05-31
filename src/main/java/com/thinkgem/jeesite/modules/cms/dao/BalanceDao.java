@@ -3,16 +3,13 @@
  */
 package com.thinkgem.jeesite.modules.cms.dao;
 
-import org.springframework.data.domain.Pageable;
+import com.thinkgem.jeesite.common.persistence.BaseDao;
+import com.thinkgem.jeesite.common.persistence.BaseDaoImpl;
+import com.thinkgem.jeesite.modules.cms.entity.Balance;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
-
-import com.thinkgem.jeesite.common.persistence.BaseDao;
-import com.thinkgem.jeesite.common.persistence.BaseDaoImpl;
-import com.thinkgem.jeesite.modules.cms.entity.Balance;
-import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
  * 欠款DAO接口

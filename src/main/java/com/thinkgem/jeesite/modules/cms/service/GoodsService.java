@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
-import com.thinkgem.jeesite.modules.cms.entity.OrderDetail;
 import com.thinkgem.jeesite.modules.cms.dao.GoodsDao;
 
 /**
