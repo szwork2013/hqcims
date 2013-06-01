@@ -66,7 +66,7 @@ public class CartController extends BaseController {
 			     model.addAttribute("cart", result);
 			     return "modules/cms/cartList";
 			 }else{
-				 addMessage(redirectAttributes, "页面加载失败,当前没有购物车,自动跳转至销售管理");
+				addMessage(redirectAttributes, "页面加载失败,当前没有购物车,自动跳转至销售管理");
 				return "redirect:"+Global.ADMIN_PATH+"/cms/orderDetail/";
 			 }
 		    

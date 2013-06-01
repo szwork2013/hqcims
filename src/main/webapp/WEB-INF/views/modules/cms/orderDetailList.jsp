@@ -24,10 +24,18 @@
 			var id=$("#id").val();
 			window.location="${ctx}/cms/order/doReceivable?id="+id;
 		}
-		function doPrint(){
-			var id=$("#id").val();
-			alert(id)
-		}
+        function doCollecting(){
+            var id=$("#id").val();
+            window.location="${ctx}/cms/order/doCollecting?id="+id;
+        }
+        function doBCollecting(){
+            var id=$("#id").val();
+            window.location="${ctx}/cms/order/doBCollecting?id="+id;
+        }
+        function doBalance(){
+            var id=$("#id").val();
+            window.location="${ctx}/cms/order/doBalance?id="+id;
+        }
 		
 		function doSave(){
  			var ids="";
@@ -153,9 +161,12 @@
 			<input id="btnButton"  class="btn btn-primary" type="button" value="置为有效" onclick="setStatus()"/>&nbsp;&nbsp;
 		</c:if>
 		<c:if test="${order.status==0}">
-		<!--  
+		<!--
 			<input id="btnButton"  class="btn btn-primary" type="button" value="保存修改" onclick="doSave()"/>&nbsp;&nbsp;
 		-->
+            <input id="btnButton"  class="btn btn-primary" type="button" value="纳入实收" onclick="doCollecting()"/>&nbsp;&nbsp;
+            <input id="btnButton"  class="btn btn-primary" type="button" value="纳入欠款" onclick="doBalance()"/>&nbsp;&nbsp;
+            <input id="btnButton"  class="btn btn-primary" type="button" value="纳入代收" onclick="doBCollecting()"/>&nbsp;&nbsp;
 			<input id="btnButton"  class="btn btn-primary" type="button" value="纳入应收" onclick="doReceivable()"/>&nbsp;&nbsp;
 			<input id="btnButton"  class="btn btn-primary" type="button" value="置为无效" onclick="setStatus1()"/>&nbsp;&nbsp;
 			<!--  

@@ -28,7 +28,7 @@ public class Change extends BaseEntity {
     private String delFlag;	// 删除标记（0：正常；1：删除）
     private Consumer consumer;//客户
     private Goods goods;//产品
-    private int num;
+    private int num=1;
 
 
 	public Change() {

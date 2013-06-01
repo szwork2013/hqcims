@@ -7,7 +7,7 @@
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function() {
-            $("#code").focus();
+            $("#goods_code").focus();
             $("#chkAll").bind("click", function () {
                 $("[name = goods_id]:checkbox").attr("checked", this.checked);
             });
@@ -33,16 +33,15 @@
 
         function consumerSelect(id,title){
             $("#consumer_id").attr("value",id);
-            $("#remarks").attr("value",title);
-            $("#searchForm").submit();
+            $("#consumer_name").attr("value",title);
         }
         function doSubmit1(){
-            window.location="${ctx}/cms/cart/";
+            window.location="${ctx}/cms/returns/";
         }
 
         function doSubmit2(){
             var id=$("#cart_id").val();
-            window.location="${ctx}/cms/cart/deleteAll?id="+id;
+            window.location="${ctx}/cms/returns/deleteAll?id="+id;
         }
 
         function doSubmit(){
@@ -79,8 +78,7 @@
                 top.$.jBox.tip("请选择物品", 'info');
                 return false;
             }else if(status==3){
-                var url="${ctx}/cms/cart/save";
-                //url+="?goods_ids="+ids+"&sales="+sales+"&nums="+nums+"&consumer_id="+$("#consumer_id").val();
+                var url="${ctx}/cms/returns/save";
                 $.post(url,
                         {
                             goods_ids:ids,
@@ -112,27 +110,31 @@
 <ul class="nav nav-tabs">
     <li class="active"><a>退货管理</a></li>
 </ul>
-<form:form id="searchForm" modelAttribute="goods" action="${ctx}/cms/goods/returnlist" method="post" class="breadcrumb form-search">
+<form:form id="searchForm" modelAttribute="querys" action="${ctx}/cms/main/returnlist" method="post" class="breadcrumb form-search">
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 
 
 
-    <label>名称 ：</label><form:input path="name" htmlEscape="false" maxlength="50" class="input-medium"/>
+    <label>名称 ：</label><form:input path="goods_name" htmlEscape="false" maxlength="50" class="input-medium"/>
     &nbsp;
-    <label>助记码 ：</label><form:input path="code" htmlEscape="false" maxlength="50" class="input-medium"/>
+    <label>助记码 ：</label><form:input path="goods_code" htmlEscape="false" maxlength="50" class="input-medium"/>
     &nbsp;
     <input id="btnQuery" class="btn btn-primary" type="submit" value="查询"/>
+    <form:hidden path="consumer_id"/>
     <input id="selectButton" class="btn btn-primary" type="button" value="选择客户"/>
-    <label>客户名称：</label><form:input path="remarks" htmlEscape="false"  class="input-medium" readonly="true"/>
+    <label>客户名称：</label><form:input path="consumer_name" htmlEscape="false"  class="input-medium" readonly="true"/>
 </form:form>
 <tags:message content="${message}"/>
 <input type="hidden" value="${cart_id}" id="cart_id" />
-<input type="hidden" value="1" id="consumer_id" />
-<a href="javascript:doSubmit1()">当前退货车数量：${cart_num}</a>
-<c:if test="${cart_num>0&&cart_id>0}">
-    <a href="javascript:doSubmit2()">清空退货车</a>
-</c:if>
+<c:choose>
+    <c:when test="${cart_num>0&&cart_id>0}">
+        <a href="javascript:doSubmit1()">当前退货车数量：${cart_num}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:doSubmit2()">清空退货车</a>
+    </c:when>
+    <c:otherwise>当前退货车数量：0</c:otherwise>
+</c:choose>
+
 <table id="contentTable" class="table table-striped table-bordered ">
     <thead><tr>
         <th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th style="display:none;">进货价</th><th>销售价</th><th>本次销售价格</th><th>本次销售数量</th>

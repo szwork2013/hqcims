@@ -15,31 +15,36 @@
         on b.consumer_id=r.consumer_id
         left join (SELECT sum(amount) as camount,consumer_id FROM cms_collecting group by consumer_id)as c
         on b.consumer_id=c.consumer_id
-        <where>
+        where bamount>0
+
 		<if test="code!=null and code.length()>0">
 		 and u.code like '%${code}%'
 		</if>
 		<if test="name!=null and name.length()>0">
 		 and u.name like '%${name}%'
 		</if>
-		</where>
+
 		group by u.name,u.code,u.id
 		order by u.id desc
 		limit #{start}, #{limit}
 	</select>
 	
 	<select id="queryCountBalance" resultType="int" parameterType="map">
-	
-	  select count(distinct u.id)  
-	  from cms_balance as b inner join cms_consumer as u on b.consumer_id=u.id
-	  <where>
+        select count(table1.id) from
+        (
+        select sum(b.amount) as amount,u.id,u.code,u.name from
+        cms_balance as b inner join cms_consumer as u on b.consumer_id=u.id
+        group by u.id
+        ) as table1
+        where table1.amount>0
+
 		<if test="code!=null and code.length()>0">
-		 and u.code like '%${code}%'
+		 and table1.code like '%${code}%'
 		</if>
 		<if test="name!=null and name.length()>0">
-		 and u.name like '%${name}%'
+		 and table1.name like '%${name}%'
 		</if>
-		</where>
+
 	</select>
 
 </mapper> 

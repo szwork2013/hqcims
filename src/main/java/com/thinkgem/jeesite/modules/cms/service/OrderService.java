@@ -5,6 +5,9 @@ package com.thinkgem.jeesite.modules.cms.service;
 
 import java.util.Date;
 import java.util.List;
+
+import com.thinkgem.jeesite.modules.cms.dao.*;
+import com.thinkgem.jeesite.modules.cms.entity.*;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -16,16 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.modules.cms.dao.GoodsDao;
-import com.thinkgem.jeesite.modules.cms.dao.OrderDao;
-import com.thinkgem.jeesite.modules.cms.dao.OrderListDao;
-import com.thinkgem.jeesite.modules.cms.dao.ReceivableDao;
-import com.thinkgem.jeesite.modules.cms.entity.Cart;
-import com.thinkgem.jeesite.modules.cms.entity.Consumer;
-import com.thinkgem.jeesite.modules.cms.entity.Goods;
-import com.thinkgem.jeesite.modules.cms.entity.Order;
-import com.thinkgem.jeesite.modules.cms.entity.OrderList;
-import com.thinkgem.jeesite.modules.cms.entity.Receivable;
 
 /**
  * 购物Service
@@ -46,9 +39,12 @@ public class OrderService extends BaseService {
 	
 	@Autowired
 	private ReceivableDao receivableDao;
+    @Autowired
+    private CollectingDao collectingDao;
 	@Autowired
 	private GoodsDao goodsDao;
-	
+    @Autowired
+    private BalanceDao balanceDao;
 	
 	public Order get(Long id) {
 		return orderDao.findOne(id);
@@ -139,7 +135,64 @@ public class OrderService extends BaseService {
 		orderDao.updateStatus(id,2);
 		
 	}
-	
+
+    /**
+     * 订单的实收操作
+     * @param id
+     */
+    public void doCollecting(Long id) {
+        //创建应收数据
+        Order order=orderDao.findOne(id);
+        Receivable receivable=new Receivable();
+        receivable.setAmount(order.getTotal());
+        receivable.setConsumer(order.getConsumer());
+        receivable.setOrder(order);
+        receivable.setStatus(1);
+        receivable=receivableDao.save(receivable);
+        //修改订单状态
+        orderDao.updateStatus(id,2);
+        //创建实收数据
+        Collecting c=new Collecting();
+        c.setAmount1(0);
+        c.setReceivable(receivable);
+        c.setConsumer(receivable.getConsumer());
+        c.setAmount(receivable.getAmount());
+        c.setFlag(0);
+        collectingDao.save(c);
+
+    }
+
+    /**
+     * 订单走欠款的操作
+     * @param id
+     */
+    public void doBalance(Long id) {
+        //创建应收数据
+        Order order=orderDao.findOne(id);
+        Receivable receivable=new Receivable();
+        receivable.setAmount(order.getTotal());
+        receivable.setConsumer(order.getConsumer());
+        receivable.setOrder(order);
+        receivable.setStatus(1);
+        receivable=receivableDao.save(receivable);
+        //修改订单状态
+        orderDao.updateStatus(id,2);
+        //创建实收数据
+        Collecting c=new Collecting();
+        c.setAmount1(0);
+        c.setReceivable(receivable);
+        c.setConsumer(receivable.getConsumer());
+        c.setAmount(0);
+        c.setFlag(0);
+        collectingDao.save(c);
+        //创建欠款数据
+        Balance b=new Balance();
+        b.setConsumer(receivable.getConsumer());
+        b.setAmount(receivable.getAmount());
+        balanceDao.save(b);
+
+    }
+
 	/** 
 	  * @Title: delete 
 	  * @author lookingfor
@@ -277,9 +330,9 @@ public class OrderService extends BaseService {
 		}
 		
 	}
-	
 
-	
+
+
 //	public Page<Cart> find(Page<Cart> page, Cart cart) {
 //		DetachedCriteria dc = cartDao.createDetachedCriteria();
 ////		if (StringUtils.isNotEmpty(Cart.getName())){

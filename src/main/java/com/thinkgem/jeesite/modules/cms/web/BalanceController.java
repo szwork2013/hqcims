@@ -61,13 +61,8 @@ public class BalanceController extends BaseController {
 
 	@RequestMapping(value = "add")
 	public String add(Long id, RedirectAttributes redirectAttributes) {
-		Receivable receivable=receivableService.get(id);
-		Balance b=new Balance();
-		b.setConsumer(receivable.getConsumer());
-		b.setAmount(receivable.getAmount());
-		balanceService.save(b);
-		receivable.setStatus(1);
-		receivableService.save(receivable);
+        balanceService.addBalance(id);
+
 		addMessage(redirectAttributes, "操作成功");
 		return "redirect:"+Global.ADMIN_PATH+"/cms/receivable/?repage";
 	}

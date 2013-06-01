@@ -3,7 +3,10 @@
  */
 package com.thinkgem.jeesite.modules.cms.service;
 
-import org.apache.commons.lang3.StringUtils;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.service.BaseService;
+import com.thinkgem.jeesite.modules.cms.dao.ReturnListDao;
+import com.thinkgem.jeesite.modules.cms.entity.ReturnList;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -12,11 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.service.BaseService;
-import com.thinkgem.jeesite.modules.cms.entity.ReturnList;
-import com.thinkgem.jeesite.modules.cms.dao.ReturnListDao;
 
 /**
  * 退货车Service
@@ -36,13 +34,7 @@ public class ReturnListService extends BaseService {
 	public ReturnList get(Long id) {
 		return returnListDao.findOne(id);
 	}
-	
-	public Page<ReturnList> find(Page<ReturnList> page, ReturnList returnList) {
-		DetachedCriteria dc = returnListDao.createDetachedCriteria();
-		dc.add(Restrictions.eq("delFlag", ReturnList.DEL_FLAG_NORMAL));
-		dc.addOrder(Order.desc("id"));
-		return returnListDao.find(page, dc);
-	}
+
 	
 	@Transactional(readOnly = false)
 	public void save(ReturnList returnList) {
@@ -53,5 +45,8 @@ public class ReturnListService extends BaseService {
 	public void delete(Long id) {
 		returnListDao.deleteById(id);
 	}
-	
+    @Transactional(readOnly = false)
+    public void update(ReturnList list) {
+         returnListDao.update(list.getId(),list.getSale(),list.getNum());
+    }
 }

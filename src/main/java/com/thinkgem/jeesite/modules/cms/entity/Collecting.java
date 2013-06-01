@@ -44,7 +44,7 @@ public class Collecting extends BaseEntity {
 	private float amount;//实收金额
 	private float amount1;//小额调整
 	private Consumer consumer;//客户
-	private int flag;//实收来源 0订单 1还款
+	private int flag;//实收来源 0订单 1还款 2退货
 
 	public Collecting() {
 		this.create_date = new Date();

@@ -6,7 +6,7 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$(this).click(function(){
+			$(":radio").click(function(){
 				var radioBox=$("input[name='radio']:checked");
 				var id = radioBox.val(), title =radioBox.attr("title");
 				if (top.mainFrame.cmsMainFrame){

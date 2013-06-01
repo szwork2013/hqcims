@@ -42,9 +42,9 @@ public class Order extends BaseEntity {
 	private String del_flag;	// 删除标记（0：正常；1：删除）
 //	private List<OrderList> childList;
 	private float total;//总计
-	private int status=-1;//状态 0有效 1无效
+	private int status=-1;//状态 0有效 1无效 2纳入应收
     private String query;
-
+    private int type=0;//正常订单 1退货
     @Transient
     public String getQuery() {
         return query;
@@ -52,6 +52,14 @@ public class Order extends BaseEntity {
 
     public void setQuery(String query) {
         this.query = query;
+    }
+    @NotNull
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     @NotNull

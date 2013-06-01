@@ -51,7 +51,7 @@
 
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th>订单编号</th><th>客户名称</th><th>客户助记码</th><th>总金额</th><th>状态</th><th>创建时间</th><th>操作人</th><th>操作</th>
+		<th>订单编号</th><th>客户名称</th><th>客户助记码</th><th>总金额</th><th>订单类型</th><th>状态</th><th>创建时间</th><th>操作人</th><th>操作</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="order" varStatus="st" >
@@ -60,12 +60,18 @@
 				<td>${order.consumer.name}</td>
 				<td>${order.consumer.code}</td>
 				<td>${order.total}</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${order.type==0}">正常订单</c:when>
+                        <c:otherwise>退货订单</c:otherwise>
+                    </c:choose>
+                </td>
 				<td>
-				<c:choose>
-				<c:when test="${order.status==1}">无效订单</c:when>
-				<c:when test="${order.status==0}">已确认订单</c:when>
-				<c:otherwise>已纳入应收</c:otherwise>
-				</c:choose>
+                    <c:choose>
+                        <c:when test="${order.status==1}">无效订单</c:when>
+                        <c:when test="${order.status==0}">已确认订单</c:when>
+                        <c:otherwise>已纳入应收</c:otherwise>
+                    </c:choose>
 				</td>
 				<td><fmt:formatDate value="${order.create_date}" type="both"/></td>
 				<td>${order.user.name}</td>
@@ -77,9 +83,9 @@
 				</c:when>
 				<c:when test="${order.status==0}">
 				<a href="${ctx}/cms/order/doReceivable?id=${order.id}" onclick="return confirmx('确认要纳入应收吗？', this.href)">应收</a>
-                    <a href="${ctx}/cms/order/doReceivable?id=${order.id}" onclick="return confirmx('确认要进行现金实收吗？', this.href)">实收</a>
-                    <a href="${ctx}/cms/order/doReceivable?id=${order.id}" onclick="return confirmx('确认要进行代收款吗？', this.href)">代收</a>
-                    <a href="${ctx}/cms/order/doReceivable?id=${order.id}" onclick="return confirmx('确认要纳入欠款吗？', this.href)">欠款</a>
+                    <a href="${ctx}/cms/order/doCollecting?id=${order.id}" onclick="return confirmx('确认要进行现金实收吗？', this.href)">实收</a>
+                    <a href="${ctx}/cms/order/doBCollecting?id=${order.id}" onclick="return confirmx('确认要进行代收款吗？', this.href)">代收</a>
+                    <a href="${ctx}/cms/order/doBalance?id=${order.id}" onclick="return confirmx('确认要纳入欠款吗？', this.href)">欠款</a>
 				<a href="${ctx}/cms/order/setStatus1?id=${order.id}" onclick="return confirmx('确认要将该订单设置为无效吗？', this.href)">置为无效</a>
 				</c:when>
 				<c:otherwise></c:otherwise>

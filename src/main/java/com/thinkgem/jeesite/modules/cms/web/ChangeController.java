@@ -69,20 +69,22 @@ public class ChangeController extends BaseController {
 
 	@RequestMapping(value = "save")
 	public String save(Change change, Model model, RedirectAttributes redirectAttributes) {
+        User currentUser = UserUtils.getUser();
+        change.setUser(currentUser);
 		if (!beanValidator(model, change)){
 			return form(change, model);
 		}
 		changeService.save(change);
         addMessage(redirectAttributes, "操作成功");
-		return "redirect:"+Global.ADMIN_PATH+"/modules/cms/change/?repage";
+		return "redirect:"+Global.ADMIN_PATH+"/cms/change/?repage";
 	}
 	
 
-	@RequestMapping(value = "delete")
-	public String delete(Long id, RedirectAttributes redirectAttributes) {
-		changeService.delete(id);
-		addMessage(redirectAttributes, "删除换货成功");
-		return "redirect:"+Global.ADMIN_PATH+"/modules/cms/change/?repage";
-	}
+//	@RequestMapping(value = "delete")
+//	public String delete(Long id, RedirectAttributes redirectAttributes) {
+//		changeService.delete(id);
+//		addMessage(redirectAttributes, "删除换货成功");
+//		return "redirect:"+Global.ADMIN_PATH+"/modules/cms/change/?repage";
+//	}
 
 }

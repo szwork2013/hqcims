@@ -10,9 +10,10 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.excel.ExportExcel;
 import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.cms.entity.Cart;
+import com.thinkgem.jeesite.modules.cms.entity.Consumer;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
 import com.thinkgem.jeesite.modules.cms.entity.Returns;
+import com.thinkgem.jeesite.modules.cms.service.ConsumerService;
 import com.thinkgem.jeesite.modules.cms.service.GoodsService;
 import com.thinkgem.jeesite.modules.cms.service.ReturnsService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
@@ -43,9 +44,6 @@ public class GoodsController extends BaseController {
 
 	@Autowired
 	private GoodsService goodsService;
-
-    @Autowired
-    private ReturnsService returnsService;
 	
 	@ModelAttribute
 	public Goods get(@RequestParam(required=false) Long id) {
@@ -77,25 +75,11 @@ public class GoodsController extends BaseController {
 		return "modules/cms/goodsList";
 	}
 
-    @RequestMapping(value = "returnlist")
-    public String returnList(Goods goods, HttpServletRequest request, HttpServletResponse response, Model model) {
-        User currentUser = UserUtils.getUser();
-        Long user_id=currentUser.getId();
-        Page<Goods> page = goodsService.find(new Page<Goods>(request, response), goods);
-        model.addAttribute("page", page);
-
-        Long cart_num=returnsService.getReturnsCountByUser(user_id);
-        model.addAttribute("cart_num", cart_num);
-        Returns carts=returnsService.getCartByUser(user_id);
-        if(carts!=null){
-            model.addAttribute("cart_id", carts.getId());
-        }else{
-            model.addAttribute("cart_id", -1);
-        }
-
-        return "modules/cms/addReturns";
+    @RequestMapping(value = "selectList")
+    public String selectList(Goods goods, HttpServletRequest request, HttpServletResponse response, Model model) {
+        list(goods, request, response, model);
+        return "modules/cms/goodSelectList";
     }
-
 
 	@RequestMapping(value = "form")
 	public String form(Goods goods, Model model) {

@@ -141,16 +141,13 @@ public class CartService extends BaseService {
 	}
 
 
-
-	/**
-	 * @param status  
-	  * @Title: saveOrder 
-	  * @author lookingfor
-	  * @Description: (这里用一句话描述这个方法的作用) 
-	  * @param id
-	  * @param id2   
-	  * @throws 
-	  */ 
+    /**
+     * 订单的确认
+     * @param id
+     * @param user
+     * @param status
+     * @return
+     */
 	@Transactional(readOnly = false)
 	public Order saveOrder(Long id, User user, int status) {
 		//第一步 根据ID从购物车查询数据
@@ -159,6 +156,7 @@ public class CartService extends BaseService {
 		//第二步 往订单新增数据  ,并根据状态修改物品
 		float total=0;
 		Order order=new Order();
+        order.setType(0);
 		order.setConsumer(cart.getConsumer());
 		order.setStatus(status);
 		order.setUser(user);

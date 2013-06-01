@@ -67,9 +67,9 @@ public class ChangeService extends BaseService {
 		changeDao.save(change);
 	}
 	
-	@Transactional(readOnly = false)
-	public void delete(Long id) {
-		changeDao.deleteById(id);
-	}
+//	@Transactional(readOnly = false)
+//	public void delete(Long id) {
+//		changeDao.deleteById(id);
+//	}
 	
 }

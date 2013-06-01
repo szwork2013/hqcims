@@ -20,7 +20,7 @@ import com.thinkgem.jeesite.modules.cms.entity.Returns;
 public interface ReturnsDao extends ReturnsDaoCustom, CrudRepository<Returns, Long> {
 
 	@Modifying
-	@Query("update Returns set delFlag='" + Returns.DEL_FLAG_DELETE + "' where id = ?1")
+	@Query("delete from  Returns where id = ?1")
 	public int deleteById(Long id);
 	
 }

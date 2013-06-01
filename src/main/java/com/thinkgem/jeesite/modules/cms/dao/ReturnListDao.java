@@ -3,7 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.cms.dao;
 
-import com.thinkgem.jeesite.modules.cms.entity.Returns;
+import com.thinkgem.jeesite.modules.cms.entity.ReturnList;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.thinkgem.jeesite.common.persistence.BaseDao;
 import com.thinkgem.jeesite.common.persistence.BaseDaoImpl;
-import com.thinkgem.jeesite.modules.cms.entity.ReturnList;
 
 /**
  * 退货车DAO接口
@@ -32,9 +31,16 @@ public interface ReturnListDao extends ReturnListDaoCustom, CrudRepository<Retur
      * @return   
      * @throws
      */
-    @Query("select count(c) from ReturnList c  where c.returns.user_id=?1 and c.returns.del_flag='" + Returns.DEL_FLAG_NORMAL + "' ")
+    @Query("select count(r) from ReturnList r  where r.returns.user_id=?1 and r.returns.del_flag='" + ReturnList.DEL_FLAG_NORMAL + "' ")
     public Long getCountReturns(Long user_id);
-	
+
+    @Modifying
+    @Query("update  ReturnList set sale=?2,num=?3 where id = ?1")
+    public int update(Long id, float sale, int num);
+
+    @Modifying
+    @Query("delete from  ReturnList  where return_id= ?1")
+    public void deleteByPid(Long id);
 }
 
 /**

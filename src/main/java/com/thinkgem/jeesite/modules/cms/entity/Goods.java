@@ -61,7 +61,7 @@ public class Goods extends BaseEntity {
 		this.id = id;
 		this.update_date=new Date();
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cms_goods")

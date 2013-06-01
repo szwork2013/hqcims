@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2013.
+  ~ whatlookingfor@gmail.com
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.thinkgem.jeesite.modules.cms.mybatis.MybatisDao">
+    <select id="queryConsumerById" parameterType="long" resultType="com.thinkgem.jeesite.modules.cms.entity.Consumer">
+      select * from cms_consumer where id=#{id}
+    </select>
+
+    <select id="getReturnsByUser" parameterType="long" resultType="com.thinkgem.jeesite.modules.cms.entity.Returns">
+        select * from cms_return where del_flag=0 and user_id=#{user_id} order by create_date desc
+    </select>
+
+    <select id="getCountReturnsByUser" parameterType="long" resultType="int">
+        select count(d.id) from cms_return_detail d,cms_return r
+        where r.user_id=#{user_id} and r.id=d.return_id
+        and r.del_flag=0
+    </select>
+
+    <select id="findReturns" resultType="com.thinkgem.jeesite.modules.cms.entity.Goods" parameterType="map">
+        select g.* from cms_goods g
+        where not exists
+        (select d.goods_id from cms_return_detail d,cms_return r
+        where g.id=d.goods_id
+        and r.user_id=#{querys.user_id} and r.id=d.return_id
+        and r.del_flag=0
+        )
+        <if test="querys.goods_code!=null">
+            and g.code like '%${querys.goods_code}%'
+        </if>
+
+        <if test="querys.goods_name!=null">
+            and g.name like '%${querys.goods_name}%'
+        </if>
+        limit #{start}, #{limit}
+    </select>
+
+    <select id="getCountReturns" resultType="int" parameterType="map">
+        select count(g.id) from cms_goods g
+        where not exists
+        (select d.goods_id from cms_return_detail d,cms_return r
+        where g.id=d.goods_id
+        and r.user_id=#{querys.user_id} and r.id=d.return_id
+        and r.del_flag=0
+        )
+        <if test="querys.goods_code!=null">
+            and g.code like '%${querys.goods_code}%'
+        </if>
+
+        <if test="querys.goods_name!=null">
+            and g.name like '%${querys.goods_name}%'
+        </if>
+    </select>
+
+</mapper> 

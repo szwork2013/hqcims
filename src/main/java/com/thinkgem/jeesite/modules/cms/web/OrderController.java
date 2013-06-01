@@ -108,7 +108,50 @@ public class OrderController extends BaseController {
 		addMessage(redirectAttributes, "操作成功");
 		return "redirect:"+Global.ADMIN_PATH+"/cms/receivable/?repage";
 	}
-	
+
+    /**
+     * @Title: doReceivable
+     * @author lookingfor
+     * @Description: 订单进行实收
+     * @param id
+     * @param redirectAttributes
+     * @return   
+     * @throws
+     */
+    @RequestMapping(value = "doCollecting")
+    public String doCollecting(Long id, RedirectAttributes redirectAttributes) {
+        service.doCollecting(id);
+        addMessage(redirectAttributes, "操作成功");
+        return "redirect:"+Global.ADMIN_PATH+"/cms/order/?repage";
+    }
+
+    /**
+     * 订单代收操作
+     * @param id
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value = "doBCollecting")
+    public String doBCollecting(Long id, RedirectAttributes redirectAttributes) {
+        service.doBalance(id);
+        addMessage(redirectAttributes, "操作成功");
+        return "redirect:"+Global.ADMIN_PATH+"/cms/order/?repage";
+    }
+
+    /**
+     * 订单走欠款的操作
+     * @param id
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value = "doBalance")
+    public String doBalance(Long id, RedirectAttributes redirectAttributes) {
+        service.doBalance(id);
+        addMessage(redirectAttributes, "操作成功");
+        return "redirect:"+Global.ADMIN_PATH+"/cms/order/?repage";
+    }
+
+
 	/** 
 	  * @Title: delete 
 	  * @author lookingfor

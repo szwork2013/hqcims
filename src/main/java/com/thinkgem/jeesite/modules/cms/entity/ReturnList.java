@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
  * @version 2013-05-03
  */
 @Entity
-@Table(name = "cms_cart_detail")
+@Table(name = "cms_return_detail")
 public class ReturnList extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
