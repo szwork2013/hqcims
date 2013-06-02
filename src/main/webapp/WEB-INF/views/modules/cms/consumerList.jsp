@@ -53,10 +53,11 @@
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead>
 		<tr>
-		<th>名称</th><th>助记码</th><th>地址</th><th>店铺名称</th><th>店铺电话</th><th>客户联系电话</th><th>是否供应商客户</th><th>操作</th></tr></thead>
+		<th>编号</th><th>名称</th><th>助记码</th><th>地址</th><th>店铺名称</th><th>店铺电话</th><th>客户联系电话</th><th>是否供应商客户</th><th>操作</th></tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="consumer">
 			<tr>
+			    <td>${consumer.id}</td>
 				<td><a href="${ctx}/cms/consumer/form?id=${consumer.id}">${consumer.name}</a></td>
 				<td>${consumer.code}</td>
 				<td>${consumer.address}</td>

@@ -13,7 +13,9 @@
 			   var decimal = /^-?\d+(\.\d{1,2})?$/;
 			   return this.optional(element) || (decimal.test(value));
 			  }, $.validator.format("小数位数不能超过两位!"));
-			 
+			  jQuery.validator.addMethod("digits1", function(value, element) {
+					return this.optional(element) || /^-?\d+$/.test(value);
+				},$.validator.format("只能输入整数!"));
 			//生成助记码
 			$("#name").blur(function() { 
 				var names=$("#name").val();
@@ -127,7 +129,7 @@
 				<td>
 					<label class="control-label">数量:</label>
 					<div class="controls">
-						<form:input path="num" htmlEscape="false" minvalue="0"  class="digits"/>
+						<form:input path="num" htmlEscape="false"  class="digits1"/>
 					</div>
 				</td>
 				<td>

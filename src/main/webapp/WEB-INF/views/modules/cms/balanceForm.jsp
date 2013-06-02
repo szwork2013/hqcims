@@ -65,7 +65,7 @@
         <div class="control-group">
             <label class="control-label">还款金额:</label>
             <div class="controls">
-                <input type="text" id="amount" name="amount" htmlEscape="false" maxlength="50" class="input-medium decimal required" />
+                <input type="text" id="amount" name="amount" htmlEscape="false" minvalue="0" class="input-medium decimal required" />
             </div>
         </div>
 		<div class="form-actions">

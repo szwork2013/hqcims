@@ -51,7 +51,7 @@
 				<td><fmt:formatDate value="${collecting.create_date}" type="both"/></td>
                 <td>
                     <c:if test="${collecting.flag==0}">
-                        <a href="#">打印订单</a>
+                        <a href="${ctx}/cms/collecting/print?id=${collecting.id}" target="_blank" >打印订单</a>
                     </c:if>
                 </td>
 			</tr>

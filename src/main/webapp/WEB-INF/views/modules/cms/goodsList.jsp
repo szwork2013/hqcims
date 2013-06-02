@@ -48,11 +48,12 @@
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th>商品名称</th><th>规格型号</th><th>助记码</th><th>商品产地</th><th>单位</th><th>数量</th><th>进货价</th><th>销售价</th><th>备注</th><th>操作</th>
+		<th>编号</th><th>商品名称</th><th>规格型号</th><th>助记码</th><th>商品产地</th><th>单位</th><th>数量</th><th>进货价</th><th>销售价</th><th>备注</th><th>操作</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="goods">
 			<tr>
+			    <td>${goods.id}</td>
 				<td><a href="${ctx}/cms/goods/form?id=${goods.id}">${goods.name}</a></td>
                 <td>${goods.brand}</td>
 				<td>${goods.code}</td>

@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include/dialog.jsp"%>
 <html>
 <head>
-    <title>购物管理</title>
+    <title>退货车管理</title>
     <meta name="decorator" content="default"/>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -64,7 +64,7 @@
                 if(!isNaN(sale)&&!isNaN(num)){
                     if(parseFloat(sale)<parseFloat(purchase)){
                         status=1;
-                        mess="请确保销售价格不低于进货价格";
+                        mess="请确保退货价格不低于进货价格";
                         return false;
                     }else{
                         ids+=id+"@";
@@ -127,7 +127,7 @@
 
 <table id="contentTable" class="table table-striped table-bordered ">
     <thead><tr>
-        <th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th style="display:none;">进货价</th><th>本次销售价格</th><th>本次销售数量</th><th>操作</th>
+        <th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th style="display:none;">进货价</th><th>本次退货价格</th><th>本次退货数量</th><th>操作</th>
     </tr></thead>
     <tbody>
     <c:forEach items="${list}" var="childList" varStatus="st" >

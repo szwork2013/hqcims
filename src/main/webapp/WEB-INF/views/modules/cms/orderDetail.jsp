@@ -131,7 +131,7 @@
 	<a href="javascript:doSubmit1()">当前购物车数量：${cart_num}</a>
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th style="display:none;">进货价</th><th>销售价</th><th>上次销售价</th><th>客户名称</th><th>客户助记码</th><th>本次销售价格</th><th>本次销售数量</th>
+		<th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th>本次销售价格</th><th>本次销售数量</th><th>客户名称</th><th>客户助记码</th><th>上次销售价</th><th style="display:none;">进货价</th><th>销售价</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="orderDetail" varStatus="st" >
@@ -142,15 +142,13 @@
 				<td>${orderDetail.goods_name}</td>
                 <td>${orderDetail.brand}</td>
 				<td>${orderDetail.goods_code}</td>
-                <td style="display:none;"><input type="text"   id="purchase${orderDetail.goods_id}"  value="${orderDetail.purchase}" /> </td>
-				<td>${orderDetail.sale}</td>
-				<td style="color:red">${orderDetail.last_sale}</td>
-				<td>${orderDetail.consumer_name}</td>
-				<td>${orderDetail.consumer_code}</td>
-				<form:form id="form${orderDetail.goods_id}" >
 				<td><input type="text"   id="sale${orderDetail.goods_id}"  value="${orderDetail.sale}" class="input-medium1"/></td>
 				<td><input type="text"   id="num${orderDetail.goods_id}"  value="1" class="input-medium1" /></td>
-				</form:form>
+				<td>${orderDetail.consumer_name}</td>
+				<td>${orderDetail.consumer_code}</td>
+				<td style="color:red">${orderDetail.last_sale}</td>
+                <td style="display:none;"><input type="text"   id="purchase${orderDetail.goods_id}"  value="${orderDetail.purchase}" /> </td>
+				<td>${orderDetail.sale}</td>
 			</tr>
 		</c:forEach>
 		</tbody>

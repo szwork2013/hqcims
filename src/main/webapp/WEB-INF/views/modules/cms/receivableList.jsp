@@ -36,7 +36,7 @@
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th>客户名称</th><th>客户助记码</th><th>是否代收客户</th><th>总金额</th><th>订单编号</th>
+		<th>客户名称</th><th>客户助记码</th><th>订单编号</th><th>总金额</th><th>是否代收客户</th>
 		<th>应收时间</th><th>操作</th>
 		</tr></thead>
 		<tbody>
@@ -44,15 +44,15 @@
 			<tr>
 				<td>${receivable.consumer.name}</td>
 				<td>${receivable.consumer.code}</td>
-				<td>${receivable.consumer.is_consumer eq 1?'否':'是'}</td>
+				<td><a href="${ctx}/cms/order/detailList?id=${receivable.order.id}">${receivable.order.id}</a></td>
 				<td>${receivable.amount}</td>
-				<td>
-				<a href="${ctx}/cms/order/detailList?id=${receivable.order.id}">${receivable.order.id}</a></td>
+				<td>${receivable.consumer.is_consumer eq 1?'否':'是'}</td>
 				<td><fmt:formatDate value="${receivable.create_date}" type="both"/></td>
 				<td>
 				 <c:if test="${receivable.status==0}">
     				<a href="${ctx}/cms/balance/add?id=${receivable.id}" onclick="return confirmx('确认要纳入欠款吗？', this.href)">纳入欠款</a>
-					<a href="${ctx}/cms/receivable/form?id=${receivable.id}" >进行实收</a>
+    				<a href="${ctx}/cms/balance/add?id=${receivable.id}" onclick="return confirmx('确认要纳入代收吗？', this.href)">纳入代收</a>
+					<a href="${ctx}/cms/receivable/form?id=${receivable.id}" >现金实收</a>
 				</c:if>
 				</td>
 			</tr>

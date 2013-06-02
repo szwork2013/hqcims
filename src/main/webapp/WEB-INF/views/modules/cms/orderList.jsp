@@ -51,14 +51,18 @@
 
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th>订单编号</th><th>客户名称</th><th>客户助记码</th><th>总金额</th><th>订单类型</th><th>状态</th><th>创建时间</th><th>操作人</th><th>操作</th>
+		<th>订单编号</th><th>客户名称</th><th>客户助记码</th><th>地址</th><th>店铺电话</th><th>创建时间</th><th>操作人</th><th>总金额</th><th>订单类型</th><th>状态</th><th>操作</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="order" varStatus="st" >
 			<tr>
-				<td><a href="${ctx}/cms/order/detailList?id=${order.id}">${order.id}</a></td>
+				<td><a href="${ctx}/cms/order/detailList?id=${order.id}"><fmt:formatDate value="${order.create_date}" type="date"/>—${order.id}</a></td>
 				<td>${order.consumer.name}</td>
 				<td>${order.consumer.code}</td>
+				<td>${order.consumer.address}</td>
+				<td>${order.consumer.phone}</td>
+				<td><fmt:formatDate value="${order.create_date}" type="both"/></td>
+				<td>${order.user.name}</td>
 				<td>${order.total}</td>
                 <td>
                     <c:choose>
@@ -73,8 +77,7 @@
                         <c:otherwise>已纳入应收</c:otherwise>
                     </c:choose>
 				</td>
-				<td><fmt:formatDate value="${order.create_date}" type="both"/></td>
-				<td>${order.user.name}</td>
+				
 				<td>
 				<c:choose>
 				<c:when test="${order.status==1}">

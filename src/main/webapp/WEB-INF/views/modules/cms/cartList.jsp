@@ -37,7 +37,7 @@
 			window.location="${ctx}/cms/cart/deleteAll?id="+id;
 		}
 		function doSubmit2(){
-			var mess="确认要提交订单吗？";
+			var mess="是否确认订单（确认-此订单确认为有效订单，取消，将订单确认为无效订单）？";
 			var url="${ctx}/cms/cart/saveOrder";
 			url+="?id="+$("#id").val();
 			top.$.jBox.confirm(mess,'系统提示',function(v,h,f){
