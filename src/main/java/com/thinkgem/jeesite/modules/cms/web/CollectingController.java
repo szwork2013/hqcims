@@ -3,16 +3,11 @@
  */
 package com.thinkgem.jeesite.modules.cms.web;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.modules.cms.entity.Balance;
-import com.thinkgem.jeesite.modules.cms.entity.Collecting;
-import com.thinkgem.jeesite.modules.cms.entity.Consumer;
-import com.thinkgem.jeesite.modules.cms.entity.Receivable;
-import com.thinkgem.jeesite.modules.cms.service.BalanceService;
-import com.thinkgem.jeesite.modules.cms.service.CollectingService;
-import com.thinkgem.jeesite.modules.cms.service.ReceivableService;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,16 +16,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.cms.entity.Balance;
+import com.thinkgem.jeesite.modules.cms.entity.Collecting;
+import com.thinkgem.jeesite.modules.cms.entity.Consumer;
+import com.thinkgem.jeesite.modules.cms.entity.OrderDetail;
+import com.thinkgem.jeesite.modules.cms.entity.OrderList;
+import com.thinkgem.jeesite.modules.cms.entity.Receivable;
+import com.thinkgem.jeesite.modules.cms.service.BalanceService;
+import com.thinkgem.jeesite.modules.cms.service.CollectingService;
+import com.thinkgem.jeesite.modules.cms.service.OrderService;
+import com.thinkgem.jeesite.modules.cms.service.ReceivableService;
 
 /**
  * 实收Controller
+ * 
  * @author wharlookingfor
  * @version 2013-05-18
  */
 @Controller
-@RequestMapping(value = Global.ADMIN_PATH+"/cms/collecting")
+@RequestMapping(value = Global.ADMIN_PATH + "/cms/collecting")
 public class CollectingController extends BaseController {
 
 	@Autowired
@@ -39,29 +46,57 @@ public class CollectingController extends BaseController {
 	private ReceivableService receivableService;
 	@Autowired
 	private BalanceService balanceService;
-	
+	@Autowired
+	private OrderService orderService;
+
 	@ModelAttribute
-	public Collecting get(@RequestParam(required=false) Long id) {
-		if (id != null){
+	public Collecting get(@RequestParam(required = false) Long id) {
+		if (id != null) {
 			return collectingService.get(id);
-		}else{
+		} else {
 			return new Collecting();
 		}
 	}
-    @RequestMapping(value="blist")
-    public String blist (Collecting collecting,HttpServletRequest request,HttpServletResponse response,Model model){
-        Page<Collecting> page = collectingService.find(new Page<Collecting>(request, response), collecting);
-        model.addAttribute("page", page);
-        return "modules/cms/bcollectingList";
-    }
 
-	@RequestMapping(value = {"list", ""})
-	public String list(Collecting collecting, HttpServletRequest request, HttpServletResponse response, Model model) {
-        Page<Collecting> page = collectingService.find(new Page<Collecting>(request, response), collecting); 
-        model.addAttribute("page", page);
-		return "modules/cms/collectingList";
+	@RequestMapping(value = "blist")
+	public String blist(Collecting collecting, HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		Page<Collecting> page = collectingService.find(new Page<Collecting>(
+				request, response), collecting);
+		model.addAttribute("page", page);
+		return "modules/cms/bcollectingList";
 	}
 
+	@RequestMapping(value = { "list", "" })
+	public String list(Collecting collecting, HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		Page<Collecting> page = collectingService.find(new Page<Collecting>(
+				request, response), collecting);
+		model.addAttribute("page", page);
+		return "modules/cms/collectingList";
+	}
+/**
+  * @Title: print 
+  * @author lookingfor
+  * @Description: 订单的打印
+  * @param id
+  * @param model
+  * @return   
+  * @throws
+ */
+	@RequestMapping(value = "print")
+	public String print(long id, Model model) {
+		// Page<Collecting> page = collectingService.find(new
+		// Page<Collecting>(request, response), collecting);
+		// model.addAttribute("page", page);
+		Collecting collecting = collectingService.get(id);
+		//获取对应的订单明细
+		Long order_id=collecting.getReceivable().getOrder().getId();
+		List<OrderList> list=orderService.findDetail(order_id);
+		model.addAttribute("collecting", collecting);
+		model.addAttribute("list", list);
+		return "modules/cms/collectingPrint";
+	}
 
 	@RequestMapping(value = "form")
 	public String form(Collecting collecting, Model model) {
@@ -69,47 +104,48 @@ public class CollectingController extends BaseController {
 		return "modules/cms/balanceForm";
 	}
 
-    @RequestMapping(value = "save1")
-    public String save1(Long consumer_id,Float amount,RedirectAttributes redirectAttributes) {
-        Collecting c=new Collecting();
-        c.setAmount(amount);
-        c.setAmount1(0);
-        Consumer consumer=new Consumer();
-        consumer.setId(consumer_id);
-        c.setConsumer(consumer);
-        c.setFlag(1);
-        collectingService.save(c);
-        Balance b=new Balance();
-        b.setConsumer(consumer);
-        b.setAmount(0-amount);
-        balanceService.save(b);
+	@RequestMapping(value = "save1")
+	public String save1(Long consumer_id, Float amount,
+			RedirectAttributes redirectAttributes) {
+		Collecting c = new Collecting();
+		c.setAmount(amount);
+		c.setAmount1(0);
+		Consumer consumer = new Consumer();
+		consumer.setId(consumer_id);
+		c.setConsumer(consumer);
+		c.setFlag(1);
+		collectingService.save(c);
+		Balance b = new Balance();
+		b.setConsumer(consumer);
+		b.setAmount(0 - amount);
+		balanceService.save(b);
 
-        addMessage(redirectAttributes, "保存成功");
-        return "redirect:"+Global.ADMIN_PATH+"/cms/balance1/?repage";
-    }
+		addMessage(redirectAttributes, "保存成功");
+		return "redirect:" + Global.ADMIN_PATH + "/cms/balance1/?repage";
+	}
 
 	@RequestMapping(value = "save")
-	public String save(Long id,Float amount, Float amount1,int if_checked,RedirectAttributes redirectAttributes) {
-		
-		System.out.println(id+"d");
-		Receivable receivable=receivableService.get(id);
-		Collecting c=new Collecting();
-		if(if_checked!=1){
+	public String save(Long id, Float amount, Float amount1, int if_checked,
+			RedirectAttributes redirectAttributes) {
+
+		System.out.println(id + "d");
+		Receivable receivable = receivableService.get(id);
+		Collecting c = new Collecting();
+		if (if_checked != 1) {
 			c.setAmount1(0);
-		}else{
+		} else {
 			c.setAmount1(amount1);
 		}
 
-		
 		c.setReceivable(receivable);
 		c.setConsumer(receivable.getConsumer());
 		c.setAmount(amount);
-		
+
 		c.setFlag(0);
 		collectingService.save(c);
-		//如果amount1不等于0,小额调整部分走欠款
-		if(if_checked!=1){
-			Balance b=new Balance();
+		// 如果amount1不等于0,小额调整部分走欠款
+		if (if_checked != 1) {
+			Balance b = new Balance();
 			b.setConsumer(receivable.getConsumer());
 			b.setAmount(amount1);
 			balanceService.save(b);
@@ -117,11 +153,7 @@ public class CollectingController extends BaseController {
 		receivable.setStatus(1);
 		receivableService.save(receivable);
 		addMessage(redirectAttributes, "保存成功");
-		return "redirect:"+Global.ADMIN_PATH+"/cms/receivable/?repage";
+		return "redirect:" + Global.ADMIN_PATH + "/cms/receivable/?repage";
 	}
-
-	
-
-
 
 }

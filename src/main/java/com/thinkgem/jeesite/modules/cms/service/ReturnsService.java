@@ -104,7 +104,7 @@ public class ReturnsService extends BaseService {
         return list;
     }
 
-
+	@Transactional(readOnly = false)
     public void saveOrder(Long id, User user) {
         //第一步 根据ID从购物车查询数据
         Returns returns=returnsDao.findOne(id);
@@ -127,12 +127,14 @@ public class ReturnsService extends BaseService {
             child=orderListDao.save(child);
             total+=child.getNum()*child.getSale();
             //修改物品的存量
+            System.out.println(child.getNum()+"ssssssss"+child.getSale()+"sddddd"+total+"child"+child.getGoods().getCode()+"dsd"+child.getNum());
             Goods good=child.getGoods();
             int num=good.getNum();
             good.setNum(num+child.getNum());
             good.setUpdate_date(new Date());
-            goodsDao.save(good);
-
+            System.out.println(good.toString());
+            good= goodsDao.save(good);
+            System.out.println(good.toString());
         }
 
         //修改订单总金额

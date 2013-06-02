@@ -140,25 +140,27 @@ public class OrderService extends BaseService {
      * 订单的实收操作
      * @param id
      */
-    public void doCollecting(Long id) {
+	@Transactional(readOnly = false)
+    public Receivable doCollecting(Long id) {
         //创建应收数据
         Order order=orderDao.findOne(id);
         Receivable receivable=new Receivable();
         receivable.setAmount(order.getTotal());
         receivable.setConsumer(order.getConsumer());
         receivable.setOrder(order);
-        receivable.setStatus(1);
+        receivable.setStatus(0);
         receivable=receivableDao.save(receivable);
         //修改订单状态
         orderDao.updateStatus(id,2);
+        return receivable;
         //创建实收数据
-        Collecting c=new Collecting();
-        c.setAmount1(0);
-        c.setReceivable(receivable);
-        c.setConsumer(receivable.getConsumer());
-        c.setAmount(receivable.getAmount());
-        c.setFlag(0);
-        collectingDao.save(c);
+//        Collecting c=new Collecting();
+//        c.setAmount1(0);
+//        c.setReceivable(receivable);
+//        c.setConsumer(receivable.getConsumer());
+//        c.setAmount(receivable.getAmount());
+//        c.setFlag(0);
+//        collectingDao.save(c);
 
     }
 
@@ -166,6 +168,7 @@ public class OrderService extends BaseService {
      * 订单走欠款的操作
      * @param id
      */
+	@Transactional(readOnly = false)
     public void doBalance(Long id) {
         //创建应收数据
         Order order=orderDao.findOne(id);

@@ -46,7 +46,7 @@ public class BalanceService extends BaseService {
 		balanceDao.save(balance);
 	}
 
-
+	@Transactional(readOnly = false)
     public void addBalance(Long id) {
         Receivable receivable=receivableDao.findOne(id);
         //新增空的实收数据

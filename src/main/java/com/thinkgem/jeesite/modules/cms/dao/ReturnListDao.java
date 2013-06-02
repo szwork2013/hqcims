@@ -20,7 +20,7 @@ import com.thinkgem.jeesite.common.persistence.BaseDaoImpl;
 public interface ReturnListDao extends ReturnListDaoCustom, CrudRepository<ReturnList, Long> {
 
 	@Modifying
-	@Query("update ReturnList set delFlag='" + ReturnList.DEL_FLAG_DELETE + "' where id = ?1")
+	@Query("delete from  ReturnList  where id = ?1")
 	public int deleteById(Long id);
 
     /**

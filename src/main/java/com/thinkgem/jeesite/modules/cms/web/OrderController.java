@@ -8,6 +8,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.cms.entity.Order;
 import com.thinkgem.jeesite.modules.cms.entity.OrderList;
+import com.thinkgem.jeesite.modules.cms.entity.Receivable;
 import com.thinkgem.jeesite.modules.cms.service.OrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,9 +121,9 @@ public class OrderController extends BaseController {
      */
     @RequestMapping(value = "doCollecting")
     public String doCollecting(Long id, RedirectAttributes redirectAttributes) {
-        service.doCollecting(id);
+    	Receivable receivable=service.doCollecting(id);
         addMessage(redirectAttributes, "操作成功");
-        return "redirect:"+Global.ADMIN_PATH+"/cms/order/?repage";
+        return "redirect:"+Global.ADMIN_PATH+"/cms/receivable/form?id="+receivable.getId();
     }
 
     /**
@@ -135,7 +136,9 @@ public class OrderController extends BaseController {
     public String doBCollecting(Long id, RedirectAttributes redirectAttributes) {
         service.doBalance(id);
         addMessage(redirectAttributes, "操作成功");
+        System.out.println("dddddddddddd");
         return "redirect:"+Global.ADMIN_PATH+"/cms/order/?repage";
+        
     }
 
     /**

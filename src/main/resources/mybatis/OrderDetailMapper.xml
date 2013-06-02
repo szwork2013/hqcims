@@ -34,6 +34,7 @@
 	   and cms_cart_detail.goods_id=table2.goods_id)
 		
 		</where>
+		order by goods_id desc
 		limit #{start}, #{limit}
 	</select>
 	

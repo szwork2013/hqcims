@@ -37,6 +37,7 @@
         <if test="querys.goods_name!=null">
             and g.name like '%${querys.goods_name}%'
         </if>
+        order by g.id desc
         limit #{start}, #{limit}
     </select>
 

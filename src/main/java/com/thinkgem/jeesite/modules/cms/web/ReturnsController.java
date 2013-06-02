@@ -200,7 +200,7 @@ public class ReturnsController extends BaseController {
 	public String deleteDetail(Long id, RedirectAttributes redirectAttributes) {
         returnListService.delete(id);
 		addMessage(redirectAttributes, "删除成功");
-		return "redirect:"+Global.ADMIN_PATH+"/modules/cms/returns/?repage";
+		return "redirect:"+Global.ADMIN_PATH+"/cms/returns/?repage";
 	}
 
     /**

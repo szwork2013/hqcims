@@ -204,6 +204,7 @@ public class CartService extends BaseService {
 	  * @Description:清空购物车
 	  * @throws 
 	  */ 
+	@Transactional(readOnly = false)
 	public void deleteAll(Long id) {
 		cartListDao.delCartList(id);
 		cartDao.delCart(id);
