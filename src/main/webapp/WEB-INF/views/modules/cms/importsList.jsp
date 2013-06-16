@@ -33,7 +33,8 @@
 	</div>
 	
 	<ul class="nav nav-tabs">
-		<li class="active"><a>进货管理</a></li>
+		<li class="active"><a href="${ctx}/cms/imports/">进货管理</a></li>
+		<li><a href="${ctx}/cms/main/importlist">进货导入</a></li>
 	</ul>
 	<form:form id="searchForm" modelAttribute="imports" action="${ctx}/cms/imports/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>

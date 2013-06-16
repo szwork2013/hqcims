@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -50,7 +51,13 @@ public class Goods extends BaseEntity {
 	private String unit;
 	@ExcelField(title="数量", align=2, sort=60)
 	private Integer num;//数量
+	
+	private String consumer_name;//客户助记码
+	private Long consumer_id;
+	
 	public Goods() {
+		this.consumer_name = "散户";
+		this.consumer_id = 1L;
 		this.create_date = new Date();
 		this.update_date=new Date();
 		this.delFlag = DEL_FLAG_NORMAL;
@@ -193,6 +200,23 @@ public class Goods extends BaseEntity {
 
 	public void setUpdate_date(Date update_date) {
 		this.update_date = update_date;
+	}
+
+	@Transient
+	public String getConsumer_name() {
+		return consumer_name;
+	}
+
+	public void setConsumer_name(String consumer_name) {
+		this.consumer_name = consumer_name;
+	}
+	@Transient
+	public Long getConsumer_id() {
+		return consumer_id;
+	}
+
+	public void setConsumer_id(Long consumer_id) {
+		this.consumer_id = consumer_id;
 	}
 
 	@Override

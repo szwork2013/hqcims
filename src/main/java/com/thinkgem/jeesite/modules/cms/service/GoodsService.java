@@ -3,7 +3,9 @@
  */
 package com.thinkgem.jeesite.modules.cms.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
@@ -18,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
+import com.thinkgem.jeesite.modules.cms.entity.GoodsCount;
 import com.thinkgem.jeesite.modules.cms.dao.GoodsDao;
+import com.thinkgem.jeesite.modules.sys.utils.ToolsUtils;
 
 /**
  * 商品Service
@@ -61,6 +65,47 @@ public class GoodsService extends BaseService {
 	@Transactional(readOnly = false)
 	public void delete(Long id) {
 		goodsDao.deleteById(id);
+	}
+
+	/** 
+	  * @Title: findAll 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @return   
+	  * @throws 
+	  */ 
+	public List<GoodsCount> findAll() {
+		
+		DetachedCriteria dc = goodsDao.createDetachedCriteria();
+		dc.add(Restrictions.eq("delFlag", Goods.DEL_FLAG_NORMAL));
+		dc.addOrder(Order.desc("id"));
+		List<Goods> goodList=goodsDao.find(dc);
+		List<GoodsCount> result=new ArrayList<GoodsCount>();
+		for(int i=0;i<goodList.size();i++){
+			Goods goods=goodList.get(i);
+			GoodsCount goodsCount=new GoodsCount();
+			goodsCount.setId(goods.getId());
+			goodsCount.setBrand(goods.getBrand());
+			goodsCount.setCode(goods.getCode());
+			goodsCount.setName(goods.getName());
+			goodsCount.setNum(goods.getNum());
+			goodsCount.setPurchase(goods.getPurchase());
+			goodsCount.setRemarks(goods.getRemarks());
+			goodsCount.setTotal(ToolsUtils.getFloat(goods.getNum()*goods.getPurchase()));
+			result.add(goodsCount);
+		}
+		return result;
+	}
+
+	/** 
+	  * @Title: getTotal 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @return   
+	  * @throws 
+	  */ 
+	public Double  getTotal() {
+		return goodsDao.getTotal();
 	}
 	
 

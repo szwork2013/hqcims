@@ -13,6 +13,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.cms.entity.Consumer;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
+import com.thinkgem.jeesite.modules.cms.entity.ImportCart;
 import com.thinkgem.jeesite.modules.cms.entity.Querys;
 import com.thinkgem.jeesite.modules.cms.entity.Returns;
 import com.thinkgem.jeesite.modules.cms.service.MybatisService;
@@ -70,6 +71,33 @@ public class MybatisController extends BaseController {
         return "modules/cms/addReturns";
     }
 
+    
+    @RequestMapping(value = "importlist")
+    public String importList(Querys querys, HttpServletRequest request, HttpServletResponse response, Model model) {
+        User currentUser = UserUtils.getUser();
+        Long user_id=currentUser.getId();
+        querys.setUser_id(user_id);
+        Page<Goods> page = service.findImport(new Page<Goods>(request, response), querys);
+        model.addAttribute("page", page);
+        ImportCart carts=service.getImportByUser(user_id);
+        if(carts!=null){
+            model.addAttribute("cart_id", carts.getId());
+        }else{
+            model.addAttribute("cart_id", -1);
+        }
+
+        int cart_num=service.getImportCountByUser(user_id);
+        model.addAttribute("cart_num", cart_num);
+        Long id=1L;
+        if(querys.getConsumer_id()>1){
+            id=querys.getConsumer_id();
+        }
+        Consumer consumer=service.queryConsumerById(id);
+        querys.setConsumer_name(consumer.getName());
+        querys.setConsumer_id(consumer.getId());
+        return "modules/cms/addImports";
+    }
+    
 
 	
 }

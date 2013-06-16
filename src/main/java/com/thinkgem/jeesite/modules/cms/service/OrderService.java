@@ -167,9 +167,10 @@ public class OrderService extends BaseService {
     /**
      * 订单走欠款的操作
      * @param id
+     * @param flag 
      */
 	@Transactional(readOnly = false)
-    public void doBalance(Long id) {
+    public void doBalance(Long id, int flag) {
         //创建应收数据
         Order order=orderDao.findOne(id);
         Receivable receivable=new Receivable();
@@ -186,7 +187,7 @@ public class OrderService extends BaseService {
         c.setReceivable(receivable);
         c.setConsumer(receivable.getConsumer());
         c.setAmount(0);
-        c.setFlag(0);
+        c.setFlag(flag);
         collectingDao.save(c);
         //创建欠款数据
         Balance b=new Balance();

@@ -44,9 +44,9 @@ public class Generate {
 		
 		String moduleName = "cms";			// 模块名，例：sys
 		String subModuleName = "";				// 子模块名（可选） 
-		String className = "imports";			// 类名，例：user
+		String className = "count";			// 类名，例：user
 		String classAuthor = "wharlookingfor";		// 类作者，例：ThinkGem
-		String functionName = "进货管理";			// 功能名，例：用户
+		String functionName = "统计";			// 功能名，例：用户
 
 		// 是否启用生成工具
 		Boolean isEnable = true;			

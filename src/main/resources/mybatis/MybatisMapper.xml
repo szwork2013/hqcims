@@ -21,8 +21,59 @@
         where r.user_id=#{user_id} and r.id=d.return_id
         and r.del_flag=0
     </select>
+    
+     <select id="getImportByUser" parameterType="long" resultType="com.thinkgem.jeesite.modules.cms.entity.ImportCart">
+        select * from cms_import_cart where del_flag=0 and user_id=#{user_id} order by create_date desc
+    </select>
 
-    <select id="findReturns" resultType="com.thinkgem.jeesite.modules.cms.entity.Goods" parameterType="map">
+    <select id="getImportCountByUser" parameterType="long" resultType="int">
+        select count(d.id) from cms_import_detail d,cms_import_cart r
+        where r.user_id=#{user_id} and r.id=d.cart_id
+        and r.del_flag=0
+    </select>
+    
+
+    <select id="findImports" resultType="com.thinkgem.jeesite.modules.cms.entity.Goods" parameterType="map">
+        select g.* from cms_goods g
+        where not exists
+        (select d.goods_id from cms_import_detail d,cms_import_cart r
+        where g.id=d.goods_id
+        and r.user_id=#{querys.user_id} and r.id=d.cart_id
+        and r.del_flag=0
+        )
+        <if test="querys.goods_code!=null">
+            and g.code like '%${querys.goods_code}%'
+        </if>
+
+        <if test="querys.goods_name!=null">
+            and g.name like '%${querys.goods_name}%'
+        </if>
+        order by g.id desc
+        limit #{start}, #{limit}
+    </select>
+
+    <select id="getCountImports" resultType="int" parameterType="map">
+        select count(g.id) from cms_goods g
+        where not exists
+        (select d.goods_id from cms_import_detail d,cms_import_cart r
+        where g.id=d.goods_id
+        and r.user_id=#{querys.user_id} and r.id=d.cart_id
+        and r.del_flag=0
+        )
+        <if test="querys.goods_code!=null">
+            and g.code like '%${querys.goods_code}%'
+        </if>
+
+        <if test="querys.goods_name!=null">
+            and g.name like '%${querys.goods_name}%'
+        </if>
+    </select>
+    
+    
+    
+    
+    
+        <select id="findReturns" resultType="com.thinkgem.jeesite.modules.cms.entity.Goods" parameterType="map">
         select g.* from cms_goods g
         where not exists
         (select d.goods_id from cms_return_detail d,cms_return r
@@ -57,5 +108,7 @@
             and g.name like '%${querys.goods_name}%'
         </if>
     </select>
+    
+    
 
 </mapper> 

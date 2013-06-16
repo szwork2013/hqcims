@@ -50,8 +50,8 @@
 				<td><fmt:formatDate value="${receivable.create_date}" type="both"/></td>
 				<td>
 				 <c:if test="${receivable.status==0}">
-    				<a href="${ctx}/cms/balance/add?id=${receivable.id}" onclick="return confirmx('确认要纳入欠款吗？', this.href)">纳入欠款</a>
-    				<a href="${ctx}/cms/balance/add?id=${receivable.id}" onclick="return confirmx('确认要纳入代收吗？', this.href)">纳入代收</a>
+    				<a href="${ctx}/cms/balance/add?type=4&id=${receivable.id}" onclick="return confirmx('确认要纳入欠款吗？', this.href)">纳入欠款</a>
+    				<a href="${ctx}/cms/balance/add?type=3&id=${receivable.id}" onclick="return confirmx('确认要纳入代收吗？', this.href)">纳入代收</a>
 					<a href="${ctx}/cms/receivable/form?id=${receivable.id}" >现金实收</a>
 				</c:if>
 				</td>

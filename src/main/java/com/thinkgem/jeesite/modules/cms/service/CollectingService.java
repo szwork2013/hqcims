@@ -52,7 +52,6 @@ public class CollectingService extends BaseService {
 				dc.add(Restrictions.like("consumer.code", "%"+collecting.getConsumer().getCode()+"%"));
 			}
 		}
-		
 		dc.add(Restrictions.eq("delFlag", Collecting.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return collectingDao.find(page, dc);

@@ -73,6 +73,7 @@ public class ReturnsService extends BaseService {
     public Returns getReturnsByUser(Long user_id) {
         String sql="select * from cms_return where del_flag=0 and user_id="+user_id+" order by create_date desc";
         List<Returns> list=returnsDao.findBySql(sql);
+        System.out.println(list.size());
         if(list.size()>0){
             return list.get(0);
         }else{

@@ -12,11 +12,15 @@ import com.thinkgem.jeesite.common.utils.excel.ImportExcel;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.modules.cms.entity.Consumer;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
+import com.thinkgem.jeesite.modules.cms.entity.GoodsCount;
+import com.thinkgem.jeesite.modules.cms.entity.ImportCart;
 import com.thinkgem.jeesite.modules.cms.entity.Returns;
 import com.thinkgem.jeesite.modules.cms.service.ConsumerService;
 import com.thinkgem.jeesite.modules.cms.service.GoodsService;
+import com.thinkgem.jeesite.modules.cms.service.ImportCartService;
 import com.thinkgem.jeesite.modules.cms.service.ReturnsService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.ToolsUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,6 +48,7 @@ public class GoodsController extends BaseController {
 
 	@Autowired
 	private GoodsService goodsService;
+
 	
 	@ModelAttribute
 	public Goods get(@RequestParam(required=false) Long id) {
@@ -74,7 +79,16 @@ public class GoodsController extends BaseController {
         model.addAttribute("page", page);
 		return "modules/cms/goodsList";
 	}
+	
+    @RequestMapping(value = "count")
+	public String count(Goods goods, HttpServletRequest request, HttpServletResponse response, Model model) {
+        Page<Goods> page = goodsService.find(new Page<Goods>(request, response), goods);
+        model.addAttribute("page", page);
+		return "modules/cms/goodsCount";
+	}
 
+    
+    
     @RequestMapping(value = "selectList")
     public String selectList(Goods goods, HttpServletRequest request, HttpServletResponse response, Model model) {
         list(goods, request, response, model);
@@ -150,6 +164,20 @@ public class GoodsController extends BaseController {
 			addMessage(redirectAttributes, "导入模板下载失败！失败信息："+e.getMessage());
 		}
 		return "redirect:"+Global.ADMIN_PATH+"/cms/goods/?repage";
+    }
+    @RequestMapping(value = "import/count")
+    public String exportCount(HttpServletResponse response, RedirectAttributes redirectAttributes) {
+		try {
+            String fileName = "商品盘点.xlsx";
+    		List<GoodsCount> list = goodsService.findAll();
+    		Double  total=goodsService.getTotal();
+    		total=ToolsUtils.getDouble(total);
+    		new ExportExcel("商品盘点(货物合计总金额:"+total+")", GoodsCount.class, 2).setDataList(list).write(response, fileName).dispose();
+    		return null;
+		} catch (Exception e) {
+			addMessage(redirectAttributes, "导入模板下载失败！失败信息："+e.getMessage());
+		}
+		return "redirect:"+Global.ADMIN_PATH+"/cms/goods/count?repage";
     }
 	
 }

@@ -29,6 +29,8 @@ import com.thinkgem.jeesite.modules.cms.service.BalanceService;
 import com.thinkgem.jeesite.modules.cms.service.CollectingService;
 import com.thinkgem.jeesite.modules.cms.service.OrderService;
 import com.thinkgem.jeesite.modules.cms.service.ReceivableService;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 实收Controller
@@ -140,7 +142,6 @@ public class CollectingController extends BaseController {
 		c.setReceivable(receivable);
 		c.setConsumer(receivable.getConsumer());
 		c.setAmount(amount);
-
 		c.setFlag(0);
 		collectingService.save(c);
 		// 如果amount1不等于0,小额调整部分走欠款
@@ -153,7 +154,7 @@ public class CollectingController extends BaseController {
 		receivable.setStatus(1);
 		receivableService.save(receivable);
 		addMessage(redirectAttributes, "保存成功");
-		return "redirect:" + Global.ADMIN_PATH + "/cms/receivable/?repage";
+		return "redirect:" + Global.ADMIN_PATH + "/cms/collecting/?repage";
 	}
 
 }

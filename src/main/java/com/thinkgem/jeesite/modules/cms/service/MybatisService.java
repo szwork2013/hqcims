@@ -12,6 +12,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
 import com.thinkgem.jeesite.modules.cms.entity.Consumer;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
+import com.thinkgem.jeesite.modules.cms.entity.ImportCart;
 import com.thinkgem.jeesite.modules.cms.entity.Querys;
 import com.thinkgem.jeesite.modules.cms.entity.Returns;
 import com.thinkgem.jeesite.modules.cms.mybatis.MybatisDao;
@@ -75,6 +76,52 @@ public class MybatisService extends BaseService {
         int num=dao.getCountReturnsByUser(user_id);
         return num;
     }
+
+	/** 
+	  * @Title: findImport 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @param page
+	  * @param querys
+	  * @return   
+	  * @throws 
+	  */ 
+	public Page<Goods> findImport(Page<Goods> page, Querys querys) {
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("querys",querys);
+		map.put("start", page.getFirstResult());
+		map.put("limit", page.getMaxResults());
+        List<Goods> list = dao.findImports(map);
+        page.setList(list);
+        int count = dao.getCountImports(map);
+        page.setCount(count);
+        return page;
+	}
+
+	/** 
+	  * @Title: getImportByUser 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @param user_id
+	  * @return   
+	  * @throws 
+	  */ 
+	public ImportCart getImportByUser(Long user_id) {
+		return dao.getImportByUser(user_id);
+	}
+
+	/** 
+	  * @Title: getImportCountByUser 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @param user_id
+	  * @return   
+	  * @throws 
+	  */ 
+	public int getImportCountByUser(Long user_id) {
+		int num=dao.getImportCountByUser(user_id);
+        return num;
+	}
 
 	
 	

@@ -16,3 +16,4 @@
 <script src="${ctxStatic}/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
 <link href="${ctxStatic}/common/jeesite.min.css" type="text/css" rel="stylesheet" />
 <script src="${ctxStatic}/common/jeesite.min.js" type="text/javascript"></script>
+<script src="${ctxStatic}/My97DatePicker/WdatePicker.js" type="text/javascript"></script>

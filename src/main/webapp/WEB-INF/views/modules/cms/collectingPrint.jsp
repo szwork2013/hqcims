@@ -42,7 +42,7 @@
 	
 	
 	<tr><td>
-		<table  width="100%" border="2" cellspacing="0">
+		<table  width="100%" border="2" cellspacing="0" style="font-size:14px;">
 		<tr align="center">
 			<th width="4%"></th>
 			<th width="26%">商品名</th>
@@ -64,11 +64,11 @@
 			<td width="10%">华清路店</td>
 		</tr>
 		</c:forEach>
-		<tr><td colspan="8">
-		总计金额：${collecting.receivable.amount} &nbsp;&nbsp;&nbsp;
-		折让金额：${collecting.amount1} &nbsp;&nbsp;&nbsp;
-		结算金额：${fns:getFloat(collecting.receivable.amount-collecting.amount1)} &nbsp;&nbsp;&nbsp;
-		</td></tr>
+		<tr>
+		<td colspan="2">总计金额：${collecting.receivable.amount}</td>
+		<td colspan="3">折让金额：${collecting.amount1} </td>
+		<td colspan="3">结算金额：${fns:getFloat(collecting.receivable.amount-collecting.amount1)}</td>
+		</tr>
 		
 		</table>
 	</td></tr>

@@ -27,4 +27,7 @@ public class ToolsUtils {
 	public static Float getFloat(Float num){
 		return (float)(Math.round(num*100))/100;
 	}
+	public static Double getDouble(Double num){
+		return (double)(Math.round(num*100))/100;
+	}
 }

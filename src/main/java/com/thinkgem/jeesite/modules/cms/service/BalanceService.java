@@ -10,6 +10,9 @@ import com.thinkgem.jeesite.modules.cms.dao.ReceivableDao;
 import com.thinkgem.jeesite.modules.cms.entity.Balance;
 import com.thinkgem.jeesite.modules.cms.entity.Collecting;
 import com.thinkgem.jeesite.modules.cms.entity.Receivable;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +50,7 @@ public class BalanceService extends BaseService {
 	}
 
 	@Transactional(readOnly = false)
-    public void addBalance(Long id) {
+    public void addBalance(Long id, int type) {
         Receivable receivable=receivableDao.findOne(id);
         //新增空的实收数据
         Collecting c=new Collecting();
@@ -55,8 +58,7 @@ public class BalanceService extends BaseService {
         c.setAmount(0);
         c.setReceivable(receivable);
         c.setConsumer(receivable.getConsumer());
-
-        c.setFlag(0);
+        c.setFlag(type);
         collectingDao.save(c);
         //新增欠款数据
         Balance b=new Balance();

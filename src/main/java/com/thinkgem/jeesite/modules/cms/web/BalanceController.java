@@ -49,11 +49,11 @@ public class BalanceController extends BaseController {
 
 
 	@RequestMapping(value = "add")
-	public String add(Long id, RedirectAttributes redirectAttributes) {
-        balanceService.addBalance(id);
+	public String add(Long id,int type, RedirectAttributes redirectAttributes) {
+        balanceService.addBalance(id,type);
 
 		addMessage(redirectAttributes, "操作成功");
-		return "redirect:"+Global.ADMIN_PATH+"/cms/receivable/?repage";
+		return "redirect:"+Global.ADMIN_PATH+"/cms/collecting/?repage";
 	}
 	
 

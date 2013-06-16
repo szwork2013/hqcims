@@ -44,7 +44,7 @@ public class Collecting extends BaseEntity {
 	private float amount;//实收金额
 	private float amount1;//小额调整
 	private Consumer consumer;//客户
-	private int flag;//实收来源 0订单 1还款 2退货
+	private int flag;//实收来源 0订单 1还款 2退货 3代收 4 欠款
 
 	public Collecting() {
 		this.create_date = new Date();
@@ -55,7 +55,6 @@ public class Collecting extends BaseEntity {
 		this();
 		this.id = id;
 	}
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {

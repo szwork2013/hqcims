@@ -134,10 +134,10 @@ public class OrderController extends BaseController {
      */
     @RequestMapping(value = "doBCollecting")
     public String doBCollecting(Long id, RedirectAttributes redirectAttributes) {
-        service.doBalance(id);
+        service.doBalance(id,3);
         addMessage(redirectAttributes, "操作成功");
         System.out.println("dddddddddddd");
-        return "redirect:"+Global.ADMIN_PATH+"/cms/order/?repage";
+        return "redirect:"+Global.ADMIN_PATH+"/cms/collecting/?repage";
         
     }
 
@@ -149,9 +149,9 @@ public class OrderController extends BaseController {
      */
     @RequestMapping(value = "doBalance")
     public String doBalance(Long id, RedirectAttributes redirectAttributes) {
-        service.doBalance(id);
+        service.doBalance(id,4);
         addMessage(redirectAttributes, "操作成功");
-        return "redirect:"+Global.ADMIN_PATH+"/cms/order/?repage";
+        return "redirect:"+Global.ADMIN_PATH+"/cms/collecting/?repage";
     }
 
 

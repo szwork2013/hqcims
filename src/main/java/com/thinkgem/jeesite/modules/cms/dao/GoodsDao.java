@@ -15,6 +15,7 @@ import com.thinkgem.jeesite.common.persistence.BaseDao;
 import com.thinkgem.jeesite.common.persistence.BaseDaoImpl;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.cms.entity.Cart;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
 import com.thinkgem.jeesite.modules.cms.entity.OrderDetail;
 
@@ -28,6 +29,16 @@ public interface GoodsDao extends GoodsDaoCustom, CrudRepository<Goods, Long> {
 	@Modifying
 	@Query("update Goods set delFlag='" + Goods.DEL_FLAG_DELETE + "' where id = ?1")
 	public int deleteById(Long id);
+
+	/** 
+	  * @Title: getTotal 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @return   
+	  * @throws 
+	  */ 
+	@Query("select sum(c.num*c.purchase) from Goods c  where  c.delFlag='" + Cart.DEL_FLAG_NORMAL + "' ")
+	public Double  getTotal();
 
 	
 	

@@ -7,6 +7,7 @@ package com.thinkgem.jeesite.modules.cms.mybatis;
 
 import com.thinkgem.jeesite.modules.cms.entity.Consumer;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
+import com.thinkgem.jeesite.modules.cms.entity.ImportCart;
 import com.thinkgem.jeesite.modules.cms.entity.Returns;
 
 import java.util.HashMap;
@@ -45,5 +46,45 @@ public interface MybatisDao {
     public int getCountReturnsByUser(Long user_id);
 
     public Returns getReturnsByUser(Long user_id);
+
+	/** 
+	  * @Title: findImports 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @param map
+	  * @return   
+	  * @throws 
+	  */ 
+	public List<Goods> findImports(HashMap<String, Object> map);
+
+	/** 
+	  * @Title: getCountImports 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @param map
+	  * @return   
+	  * @throws 
+	  */ 
+	public int getCountImports(HashMap<String, Object> map);
+
+	/** 
+	  * @Title: getImportByUser 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @param user_id
+	  * @return   
+	  * @throws 
+	  */ 
+	public ImportCart getImportByUser(Long user_id);
+
+	/** 
+	  * @Title: getImportCountByUser 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用) 
+	  * @param user_id
+	  * @return   
+	  * @throws 
+	  */ 
+	public int getImportCountByUser(Long user_id);
 	
 }
