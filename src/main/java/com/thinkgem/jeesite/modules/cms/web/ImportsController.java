@@ -103,7 +103,9 @@ public class ImportsController extends BaseController {
 			User currentUser = UserUtils.getUser();
 			for (Imports imports : list){
 				try{
+					System.out.println(imports.getConsumer()+"ddddddddddddddddd");
 						Consumer consumer=consumerService.get(imports.getConsumer_id());
+						System.out.println(consumer.getName()+"dddddddddddd");
 						Goods goods=goodsService.get(imports.getGoods_id());
 						if(imports.getSale()==null&&imports.getPurchase()!=null&&imports.getRate()!=null){
 							imports.setSale(imports.getPurchase()*(1+imports.getRate()));

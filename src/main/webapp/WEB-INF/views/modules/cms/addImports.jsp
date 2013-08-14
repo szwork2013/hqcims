@@ -20,7 +20,10 @@
                 });
             });
 
-
+			 KeyboardJS.on('alt + z',function() {
+				 
+				 $("#btnButton12").click();
+			 });
 
 
         });
@@ -115,7 +118,7 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/cms/imports/">进货管理</a></li>
-		<li class="active"><a href="${ctx}/cms/goods/addImport">进货导入</a></li>
+		<li class="active"><a href="${ctx}/cms/main/importlist">进货导入</a></li>
 	</ul>
 <form:form id="searchForm" modelAttribute="querys" action="${ctx}/cms/main/importlist" method="post" class="breadcrumb form-search">
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -145,7 +148,7 @@
 
 <table id="contentTable" class="table table-striped table-bordered ">
     <thead><tr>
-        <th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th>当前进货价</th><th>当前销售价</th><th>当前销售点数</th><th>本次进货价</th><th>本次销售价</th><th>本次销售点数</th><th>本次进货数量</th>
+        <th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th>当前进货价</th><th>当前销售价</th><th>当前销售点数</th><th>本次进货价</th><th>本次销售点数</th><th>本次销售价</th><th>本次进货数量</th>
     </tr></thead>
     <tbody>
     <c:forEach items="${page.list}" var="goods" varStatus="st" >
@@ -160,8 +163,9 @@
             <td>${goods.sale}</td>
             <td>${goods.rate}</td>
             <td><input type="text"   id="purchase${goods.id}"  value="${goods.purchase}" class="input-medium1" /> </td>
+            <td><input type="text"   id="rate${goods.id}"  value="${goods.rate}" class="input-medium1"/></td>
              <td><input type="text"   id="sale${goods.id}"  value="${goods.sale}" class="input-medium1"/></td>
-             <td><input type="text"   id="rate${goods.id}"  value="${goods.rate}" class="input-medium1"/></td>
+             
              <td><input type="text"   id="num${goods.id}"  value="1" class="input-medium1" /></td>
         </tr>
     </c:forEach>
@@ -170,7 +174,7 @@
 <div class="pagination">${page}</div>
 <div class="form-actions">
     <div align="center">
-        <input  class="btn btn-primary" type="button" value="加入进货车" onclick="doSubmit()"/>
+        <input  id="btnButton12" class="btn btn-primary" type="button" value="加入进货车" onclick="doSubmit()"/>
         <c:if test="${cart_num>0&&cart_id>0}">
         <input  class="btn btn-primary" type="button" value="进入进货车" onclick="doSubmit1()"/>
         <input  class="btn btn-primary" type="button" value="清空进货车" onclick="doSubmit2()"/>

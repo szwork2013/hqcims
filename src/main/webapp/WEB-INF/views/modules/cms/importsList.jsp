@@ -58,7 +58,7 @@
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th>进货客户</th><th>客户助记码</th><th>商品名称</th><th>助记码</th><th>总数量</th><th>进货数量</th><th>当前进货价</th><th>当前销售价</th><th>进货时间</th>
+		<th>进货客户</th><th>客户助记码</th><th>商品名称</th><th>助记码</th><th>总数量</th><th>进货数量</th><th>当前进货价</th><th>当前销售价</th><th>当前销售点数</th><th>进货时间</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="import">
@@ -71,6 +71,7 @@
                 <td>${import.num}</td>
 				<td>${import.goods.purchase}</td>
 				<td>${import.goods.sale}</td>
+				<td>${import.goods.rate}</td>
 				<td><fmt:formatDate value="${import.create_date}" type="both"/></td>
 			</tr>
 		</c:forEach>

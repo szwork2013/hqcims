@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Comment;
@@ -320,12 +321,17 @@ public class ExportExcel {
 				cell.setCellValue((String) val);
 			} else if (val instanceof Integer) {
 				cell.setCellValue((Integer) val);
+				cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
 			} else if (val instanceof Long) {
 				cell.setCellValue((Long) val);
+				cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
 			} else if (val instanceof Double) {
 				cell.setCellValue((Double) val);
+				cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
 			} else if (val instanceof Float) {
+				System.out.println("test test test ");
 				cell.setCellValue((Float) val);
+				cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
 			} else if (val instanceof Date) {
 				DataFormat format = wb.createDataFormat();
 	            style.setDataFormat(format.getFormat("yyyy-MM-dd"));

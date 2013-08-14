@@ -20,6 +20,9 @@
 			$("#searchForm").submit();
         	return false;
         }
+		function doSubmit1(){
+			window.location="${ctx}/cms/goods/create";
+		}
 	</script>
 </head>
 <body>
@@ -42,13 +45,19 @@
 		<label>名称 ：</label><form:input path="name" htmlEscape="false" maxlength="50" class="input-medium"/>
 		&nbsp;
 		<label>助记码 ：</label><form:input path="code" htmlEscape="false" maxlength="50" class="input-medium"/>
+		<label>品牌：</label>
+		<form:select path="origin" class="input-medium">
+		   <form:options items="${fns:getDictList('origin_select')}" itemLabel="label" itemValue="value" htmlEscape="false" />
+			
+		</form:select>
 		&nbsp;<input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/>
 		&nbsp;<input id="btnImport" class="btn btn-primary" type="button" value="导入"/>
+		&nbsp;<input id="btnCreate" class="btn btn-primary" type="button" value="生成助记码" onclick="doSubmit1()"/>
 	</form:form>
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th>编号</th><th>商品名称</th><th>规格型号</th><th>助记码</th><th>商品产地</th><th>单位</th><th>数量</th><th>进货价</th><th>销售价</th><th>备注</th><th>操作</th>
+		<th>编号</th><th>商品名称</th><th>规格型号</th><th>助记码</th><th>商品产地</th><th>单位</th><th>数量</th><th>进货价</th><th>销售价</th><th>销售点数</th><th>备注</th><th>操作</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="goods">
@@ -62,6 +71,7 @@
                 <td>${goods.num}</td>
 				<td>${goods.purchase}</td>
 				<td>${goods.sale}</td>
+				<td>${goods.rate}</td>
 				<td>${goods.remarks}</td>
 				<td>
     				<a href="${ctx}/cms/goods/form?id=${goods.id}">修改</a>

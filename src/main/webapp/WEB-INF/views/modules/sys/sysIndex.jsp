@@ -20,6 +20,9 @@
 				$("#menu li.menu").removeClass("active");
 				$(this).parent().addClass("active");
 			});
+			
+			
+			
 		});
 	</script>
 </head>

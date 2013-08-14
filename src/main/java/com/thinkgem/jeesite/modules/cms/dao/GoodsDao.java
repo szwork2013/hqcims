@@ -16,6 +16,7 @@ import com.thinkgem.jeesite.common.persistence.BaseDaoImpl;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.cms.entity.Cart;
+import com.thinkgem.jeesite.modules.cms.entity.CartList;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
 import com.thinkgem.jeesite.modules.cms.entity.OrderDetail;
 
@@ -40,6 +41,9 @@ public interface GoodsDao extends GoodsDaoCustom, CrudRepository<Goods, Long> {
 	@Query("select sum(c.num*c.purchase) from Goods c  where  c.delFlag='" + Cart.DEL_FLAG_NORMAL + "' ")
 	public Double  getTotal();
 
+	
+	@Query("from Goods c  where c.code='' or c.code=null")
+	public List<Goods> findGoodsNoCode();
 	
 	
 }

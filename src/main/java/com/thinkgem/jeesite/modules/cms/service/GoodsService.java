@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.BaseService;
+import com.thinkgem.jeesite.common.utils.PinyinUtils;
 import com.thinkgem.jeesite.modules.cms.entity.Goods;
 import com.thinkgem.jeesite.modules.cms.entity.GoodsCount;
 import com.thinkgem.jeesite.modules.cms.dao.GoodsDao;
@@ -51,6 +52,24 @@ public class GoodsService extends BaseService {
 		if (StringUtils.isNotEmpty(goods.getCode())){
 			dc.add(Restrictions.like("code", "%"+goods.getCode()+"%"));
 		}
+		if (StringUtils.isNotEmpty(goods.getOrigin())){
+			if(!goods.getOrigin().equals("全部")){
+				if(goods.getOrigin().equals("其他")){
+					dc.add(Restrictions.not(Restrictions.like("origin", "%得力%")));
+					dc.add(Restrictions.not(Restrictions.like("origin", "%青海湖%")));
+					dc.add(Restrictions.not(Restrictions.like("origin", "%长城%")));
+					dc.add(Restrictions.not(Restrictions.like("origin", "%蓝达%")));
+					dc.add(Restrictions.not(Restrictions.like("origin", "%市场调货%")));
+					dc.add(Restrictions.not(Restrictions.like("origin", "%山东%")));
+				}else{
+					dc.add(Restrictions.like("origin", "%"+goods.getOrigin()+"%"));
+				}
+				
+			}
+			
+			
+		}
+		
 		dc.add(Restrictions.eq("delFlag", Goods.DEL_FLAG_NORMAL));
 		dc.addOrder(Order.desc("id"));
 		return goodsDao.find(page, dc);
@@ -89,9 +108,9 @@ public class GoodsService extends BaseService {
 			goodsCount.setCode(goods.getCode());
 			goodsCount.setName(goods.getName());
 			goodsCount.setNum(goods.getNum());
-			goodsCount.setPurchase(goods.getPurchase());
+			goodsCount.setPurchase(ToolsUtils.getFloat(goods.getPurchase())+"");
 			goodsCount.setRemarks(goods.getRemarks());
-			goodsCount.setTotal(ToolsUtils.getFloat(goods.getNum()*goods.getPurchase()));
+			goodsCount.setTotal(ToolsUtils.getFloat(goods.getNum()*goods.getPurchase())+"");
 			result.add(goodsCount);
 		}
 		return result;
@@ -106,6 +125,27 @@ public class GoodsService extends BaseService {
 	  */ 
 	public Double  getTotal() {
 		return goodsDao.getTotal();
+	}
+
+	/** 
+	  * @Title: create 
+	  * @author lookingfor
+	  * @Description: (这里用一句话描述这个方法的作用)    
+	  * @throws 
+	  */ 
+	@Transactional(readOnly = false)
+	public void create() {
+		List<Goods> list=goodsDao.findGoodsNoCode();
+		if(list.size()>0){
+			for(int i=0;i<list.size();i++){
+				Goods goods=list.get(i);
+				String code= PinyinUtils.getPinYinHeadChar(goods.getName());
+				goods.setCode(code);
+				goodsDao.save(goods);
+			}
+		}
+		
+		
 	}
 	
 

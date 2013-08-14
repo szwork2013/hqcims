@@ -29,35 +29,45 @@ public class Goods extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 	private Long id; 		// 编号
+	
 	@ExcelField(title="名称", align=2, sort=10)
 	private String name; 	// 名称
-	@ExcelField(title="备注", align=2, sort=90)
+	
+	@ExcelField(title="备注", align=2, sort=100)
 	private String remarks; // 备注
+	
 	private Date create_date;	// 创建日期
 	private String delFlag;	// 删除标记（0：正常；1：删除）
+	
 	@ExcelField(title="助记码", align=2, sort=20)
 	private String code;//助记码
-	@ExcelField(title="进价", align=2, sort=70)
+	
+	@ExcelField(title="进货价格", align=2, sort=70)
 	private Float purchase;//进货价格
-	@ExcelField(title="销售", align=2, sort=80)
+	
+	@ExcelField(title="销售价格", align=2, sort=80)
 	private Float sale;//销售价格
+	
+	@ExcelField(title="销售点数", align=2, sort=90)
 	private Float rate;//销售点数
+	
 	@ExcelField(title="生产厂家", align=2, sort=40)
 	private String origin;//产地
+	
 	@ExcelField(title="规格", align=2, sort=30)
 	private String brand;//规格
+	
 	private Date update_date;//最近更新时间
+	
 	@ExcelField(title="单位", align=2, sort=50)
 	private String unit;
+	
 	@ExcelField(title="数量", align=2, sort=60)
 	private Integer num;//数量
 	
-	private String consumer_name;//客户助记码
-	private Long consumer_id;
+
 	
 	public Goods() {
-		this.consumer_name = "散户";
-		this.consumer_id = 1L;
 		this.create_date = new Date();
 		this.update_date=new Date();
 		this.delFlag = DEL_FLAG_NORMAL;
@@ -202,22 +212,7 @@ public class Goods extends BaseEntity {
 		this.update_date = update_date;
 	}
 
-	@Transient
-	public String getConsumer_name() {
-		return consumer_name;
-	}
 
-	public void setConsumer_name(String consumer_name) {
-		this.consumer_name = consumer_name;
-	}
-	@Transient
-	public Long getConsumer_id() {
-		return consumer_id;
-	}
-
-	public void setConsumer_id(Long consumer_id) {
-		this.consumer_id = consumer_id;
-	}
 
 	@Override
 	public String toString() {

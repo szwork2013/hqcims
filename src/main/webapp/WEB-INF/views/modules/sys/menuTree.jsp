@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+
 <html>
 <head>
 	<title>菜单导航</title>
@@ -22,10 +24,20 @@
 			});
 			$(".accordion-heading a i:eq(1)").click();
 			$(".accordion-body a i:eq(3)").click();
+			
+			function dokeyclick(){
+				$(".accordion-heading a i:eq(1)").click();
+				$(".accordion-body a i:eq(2)").click();
+			}
+			
+			
 		});
 	</script>
+	
+
 </head>
 <body>
+
 	<div class="accordion" id="menu">
 	<c:set var="menuList" value="${fns:getMenuList()}"/>
 	<c:set var="firstMenu" value="true"/>
@@ -44,5 +56,7 @@
 				</div>
 		    </div>
 		</div></c:forEach></div>
+
 </body>
 </html>
+

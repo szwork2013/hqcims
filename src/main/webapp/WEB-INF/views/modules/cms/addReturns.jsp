@@ -21,7 +21,10 @@
             });
 
 
-
+			 KeyboardJS.on('alt + z',function() {
+				 
+				 $("#btnButton11").click();
+			 });
 
         });
         function page(n,s){
@@ -161,7 +164,7 @@
 <div class="pagination">${page}</div>
 <div class="form-actions">
     <div align="center">
-        <input  class="btn btn-primary" type="button" value="加入退货车" onclick="doSubmit()"/>
+        <input  id="btnButton11" class="btn btn-primary" type="button" value="加入退货车" onclick="doSubmit()"/>
         <c:if test="${cart_num>0&&cart_id>0}">
         <input  class="btn btn-primary" type="button" value="进入退货车" onclick="doSubmit1()"/>
         <input  class="btn btn-primary" type="button" value="清空退货车" onclick="doSubmit2()"/>

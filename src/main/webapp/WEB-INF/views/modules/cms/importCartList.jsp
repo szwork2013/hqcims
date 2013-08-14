@@ -134,7 +134,7 @@
 
 <table id="contentTable" class="table table-striped table-bordered ">
     <thead><tr>
-    	<th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th>当前进货价</th><th>当前销售价</th><th>当前销售点数</th><th>本次进货价</th><th>本次销售价</th><th>本次销售点数</th><th>本次进货数量</th><th>操作</th>
+    	<th><input type="checkbox" id="chkAll"></th><th>商品名称</th><th>商品规格</th><th>商品助记码</th><th>当前进货价</th><th>当前销售价</th><th>当前销售点数</th><th>本次进货价</th><th>本次销售点数</th><th>本次销售价</th><th>本次进货数量</th><th>操作</th>
     </tr></thead>
     <tbody>
     <c:forEach items="${list}" var="childList" varStatus="st" >
@@ -149,8 +149,9 @@
             <td>${childList.goods.sale}</td>
             <td>${childList.goods.rate}</td>
             <td><input type="text"   id="purchase${childList.id}"  value="${childList.purchase}" class="input-medium1" /> </td>
+            <td><input type="text"   id="rate${childList.id}"  value="${childList.rate}" class="input-medium1"/></td>
              <td><input type="text"   id="sale${childList.id}"  value="${childList.sale}" class="input-medium1"/></td>
-             <td><input type="text"   id="rate${childList.id}"  value="${childList.rate}" class="input-medium1"/></td>
+             
              <td><input type="text"   id="num${childList.id}"  value="${childList.num}"   class="input-medium1" /></td>
              <td>
                 <a href="${ctx}/cms/importCart/deleteDetail?id=${childList.id}" onclick="return confirmx('确认要删除该条数据吗？', this.href)">删除</a>

@@ -40,7 +40,6 @@
 		<label>订单状态 ：</label>
 		<form:select path="status" class="input-medium">
 		   <form:options items="${fns:getDictList('order_status')}" itemLabel="label" itemValue="value" htmlEscape="false" />
-			<form:option value="-1" label="全部" selected="selected"/>
 			
 		</form:select>
 		&nbsp;

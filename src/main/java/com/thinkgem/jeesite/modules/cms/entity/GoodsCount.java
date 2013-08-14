@@ -36,10 +36,10 @@ public class GoodsCount extends BaseEntity {
 	private String code;//助记码
 	
 	@ExcelField(title="进价", align=2, sort=70)
-	private Float purchase;//进货价格
+	private String purchase;//进货价格
 	
 	@ExcelField(title="总金额", align=2, sort=80)
-	private Float total;//进货价格
+	private String total;//进货价格
 	
 	
 	@ExcelField(title="规格", align=2, sort=30)
@@ -90,12 +90,12 @@ public class GoodsCount extends BaseEntity {
 	}
 
 
-	public Float getPurchase() {
+	public String getPurchase() {
 		return purchase;
 	}
 
 
-	public void setPurchase(Float purchase) {
+	public void setPurchase(String purchase) {
 		this.purchase = purchase;
 	}
 
@@ -120,12 +120,12 @@ public class GoodsCount extends BaseEntity {
 	}
 
 
-	public Float getTotal() {
+	public String getTotal() {
 		return total;
 	}
 
 
-	public void setTotal(Float total) {
+	public void setTotal(String total) {
 		this.total = total;
 	}
 	

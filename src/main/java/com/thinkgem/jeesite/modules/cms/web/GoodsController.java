@@ -108,7 +108,15 @@ public class GoodsController extends BaseController {
 		addMessage(redirectAttributes, "删除商品成功");
 		return "redirect:"+Global.ADMIN_PATH+"/cms/goods/?repage";
 	}
-
+	@RequestMapping(value = "create")
+	public String create(Long id, RedirectAttributes redirectAttributes) {
+		goodsService.create();
+		addMessage(redirectAttributes, "操作成功");
+		return "redirect:"+Global.ADMIN_PATH+"/cms/goods/?repage";
+	}
+	
+	
+	
 	
     @RequestMapping(value = "import", method=RequestMethod.POST)
     public String importFile(MultipartFile file, RedirectAttributes redirectAttributes) {
@@ -120,9 +128,14 @@ public class GoodsController extends BaseController {
 			List<Goods> list = ei.getDataList(Goods.class);
 			for (Goods goods : list){
 				try{
-						float rate_temp=goods.getSale()/goods.getPurchase()-1;
-					 	float  rate   =   (float)(Math.round(rate_temp*100))/100;
-						goods.setRate(rate);
+					if(goods.getSale()==null&&goods.getPurchase()!=null&&goods.getRate()!=null){
+						  float sale_temp=goods.getPurchase()*(1+goods.getRate());
+						  float sale=(float)(Math.round(sale_temp*100))/100;
+						  goods.setSale(sale);
+					  }
+//						float rate_temp=goods.getSale()/goods.getPurchase()-1;
+//					 	float  rate   =   (float)(Math.round(rate_temp*100))/100;
+//						goods.setRate(rate);
 						BeanValidators.validateWithException(validator, goods);
 						goodsService.save(goods);
 						successNum++;
@@ -168,7 +181,7 @@ public class GoodsController extends BaseController {
     @RequestMapping(value = "import/count")
     public String exportCount(HttpServletResponse response, RedirectAttributes redirectAttributes) {
 		try {
-            String fileName = "商品盘点.xlsx";
+            String fileName = "商品盘点.xls";
     		List<GoodsCount> list = goodsService.findAll();
     		Double  total=goodsService.getTotal();
     		total=ToolsUtils.getDouble(total);

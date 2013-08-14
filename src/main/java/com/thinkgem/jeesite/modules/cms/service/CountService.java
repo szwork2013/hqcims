@@ -47,7 +47,7 @@ public class CountService extends BaseService {
 		Date end_date=DateUtils.parseDate(end);
 		dc.add(Restrictions.ge("create_date",new Timestamp(start_date.getTime()))); 
 		dc.add(Restrictions.le("create_date",new Timestamp(end_date.getTime()))); 
-		dc.add(Restrictions.not(Restrictions.eq("flag",1))); 
+		//dc.add(Restrictions.not(Restrictions.eq("flag",1))); 
 		dc.addOrder(Order.desc("id"));
 		return collectingDao.find(page, dc);
 	}
@@ -60,7 +60,7 @@ public class CountService extends BaseService {
 		Date end_date=DateUtils.parseDate(end);
 		dc.add(Restrictions.ge("create_date",new Timestamp(start_date.getTime()))); 
 		dc.add(Restrictions.le("create_date",new Timestamp(end_date.getTime()))); 
-		dc.add(Restrictions.not(Restrictions.eq("flag",1))); 
+		//dc.add(Restrictions.not(Restrictions.eq("flag",1))); 
 		dc.addOrder(Order.asc("flag"));
 		return collectingDao.find(dc);
 	}

@@ -19,7 +19,10 @@
 							}
 						});
 				 });
-			 
+				 KeyboardJS.on('alt + z',function() {
+					 
+					 $("#btnButton1").click();
+				 });
 			 
 				
 			 
@@ -156,7 +159,7 @@
 	<div class="pagination">${page}</div>
 	<div class="form-actions">
 		<div align="center">
-		<input id="btnButton"  class="btn btn-primary" type="button" value="加入购物车" onclick="doSubmit()"/>
+		<input id="btnButton1"  class="btn btn-primary" type="button" value="加入购物车" onclick="doSubmit()"/>
 		<input id="btnButton"  class="btn btn-primary" type="button" value="查看购物车" onclick="doSubmit1()"/>
 		<c:if test="${cart_num>0&&cart_id>0}">
 		<input id="btnButton"  class="btn btn-primary" type="button" value="清空购物车" onclick="doSubmit2()"/>

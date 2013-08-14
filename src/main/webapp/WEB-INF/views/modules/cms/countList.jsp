@@ -36,17 +36,32 @@
 	<tags:message content="${message}"/>
 	<table id="contentTable" class="table table-striped table-bordered ">
 		<thead><tr>
-		<th>营业员</th><th>单据号</th><th>客户名称</th><th>性质</th><th>销售金额</th><th>现金总额</th><th>代收货款</th><th>欠款总额</th>
+		<th>营业员</th><th>单据号</th><th>客户名称</th><th>性质</th><th>销售金额</th><th>现金总额</th><th>代收货款</th><th>欠款总额</th><th>还款总额</th>
 		</tr></thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="collecting">
 			<tr>
-			    <td>${collecting.receivable.order.user.name}</td>
-				<td><fmt:formatDate value="${collecting.receivable.order.create_date}" type="date"/>—${collecting.receivable.order.id}</td>
+			    <td>
+			    <c:choose>
+                        <c:when test="${collecting.flag!=1}">
+                        ${collecting.receivable.order.user.name}
+                        </c:when>
+                        <c:otherwise></c:otherwise>
+                   </c:choose>
+			    </td>
+				<td>
+				<c:choose>
+                        <c:when test="${collecting.flag!=1}">
+                        <fmt:formatDate value="${collecting.receivable.order.create_date}" type="date"/>—${collecting.receivable.order.id}
+                        </c:when>
+                        <c:otherwise></c:otherwise>
+                </c:choose>
+				</td>
                 <td>${collecting.consumer.name}</td>
                 <td>
                     <c:choose>
                         <c:when test="${collecting.flag==0}">现金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:when>
+                        <c:when test="${collecting.flag==1}">还款&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:when>
                         <c:when test="${collecting.flag==2}">退货&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:when>
                         <c:when test="${collecting.flag==3}">代收&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:when>
                         <c:when test="${collecting.flag==4}">欠款&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:when>
@@ -63,9 +78,15 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td>
-                ${collecting.amount}
-                <c:set var="amount2" value="${collecting.amount+amount2}"></c:set>
+               <td>
+                  <c:choose>
+                        <c:when test="${collecting.flag==1}">0
+                        <c:set var="amount2" value="${amount2+0}"></c:set>
+                        </c:when>
+                        <c:otherwise>${collecting.amount}
+                        <c:set var="amount2" value="${collecting.amount+amount2}"></c:set>
+                        </c:otherwise>
+                    </c:choose>
                 </td>
                 <td>
                     <c:choose>
@@ -86,6 +107,17 @@
                         </c:when>
                         <c:otherwise>0
                         <c:set var="amount4" value="${amount4+0}"></c:set>
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${collecting.flag==1}">
+                        ${collecting.amount}
+                        <c:set var="amount5" value="${collecting.amount+amount5}"></c:set>
+                        </c:when>
+                        <c:otherwise>0
+                        <c:set var="amount5" value="${amount5+0}"></c:set>
                         </c:otherwise>
                     </c:choose>
                 </td>
